@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+{% block title %}Wedding Collection – Vivah{% endblock %}
+
+{% block extra_head %}
+<style>
+  .wedding-hero {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+  .wedding-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1C0A0A 0%, #8B1A1A 50%, #1C0A0A 100%);
+  }
+  .wedding-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.25;
+  }
+  .wedding-hero-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    padding: 80px 40px;
+  }
+  .wedding-hero-content h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(38px, 7vw, 80px);
+    letter-spacing: 5px;
+    margin-bottom: 16px;
+  }
+  .wedding-hero-content h1 span { color: var(--gold-light); }
+  .wedding-hero-content p {
+    font-size: 18px;
+    font-style: italic;
+    opacity: 0.85;
+    max-width: 600px;
+    margin: 0 auto 32px;
+  }
+  .wedding-features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .wedding-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+  }
+  .wedding-feature i { font-size: 18px; }
+  .empty-collection {
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--warm-gray);
+  }
+  .empty-collection i { font-size: 64px; color: var(--gold); margin-bottom: 20px; }
+  .empty-collection h3 { font-family: var(--font-heading); font-size: 28px; color: var(--charcoal); margin-bottom: 12px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="wedding-hero">
+  <div class="wedding-hero-bg"></div>
+  <img class="wedding-hero-img" src="{{ url_for('static', filename='images/hero/hero_banner1.jpg') }}" alt="Wedding Sarees" />
+  <div class="wedding-hero-content">
+    <div class="section-label" style="color:var(--gold-light);">For the Bride</div>
+    <h1>Wedding <span>Collection</span></h1>
+    <p>Exquisite sarees crafted for the most beautiful day of your life — where every thread is woven with love</p>
+    <a href="{{ url_for('customize') }}" class="btn btn-gold">Design Your Bridal Saree</a>
+    <div class="wedding-features">
+      <div class="wedding-feature"><i class="fas fa-gem"></i> Handcrafted</div>
+      <div class="wedding-feature"><i class="fas fa-certificate"></i> Pure Silk</div>
+      <div class="wedding-feature"><i class="fas fa-heart"></i> Bespoke Orders</div>
+      <div class="wedding-feature"><i class="fas fa-star"></i> Zari Work</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Vivah Bridal</div>
+      <h2 class="section-title">Our Wedding Sarees</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">Discover our curated bridal collection — add your sarees through the Admin panel</p>
+    </div>
+
+    {% if products %}
+      <div class="products-grid">
+        {% for product in products %}
+        <div class="product-card">
+          <div class="product-img-wrap">
+            {% if product.image %}
+              <img src="{{ url_for('static', filename='images/products/' + product.image) }}" alt="{{ product.name }}" />
+            {% else %}
+              <div class="product-img-placeholder">
+                <i class="fas fa-heart" style="color:var(--crimson);"></i>
+                <span>Bridal Saree</span>
+              </div>
+            {% endif %}
+            <div class="product-badges"><span class="badge badge-wedding">✦ Bridal</span></div>
+            <div class="product-actions-hover">
+              <button onclick="addToCart({{ product.id }})"><i class="fas fa-shopping-bag"></i> Add to Bag</button>
+              <button onclick="window.location='/product/{{ product.id }}'"><i class="fas fa-eye"></i> View</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="category-tag">Wedding Collection</div>
+            <h3>{{ product.name }}</h3>
+            <div class="product-price"><span class="price-current">₹{{ "{:,.0f}".format(product.price) }}</span></div>
+            {% if product.fabric %}<span class="product-fabric-tag">{{ product.fabric }}</span>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- Wedding product placeholders -->
+      <div class="products-grid">
+        {% for i in range(12) %}
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:3/4; background: linear-gradient(135deg,#faf0e6,#f5deb3);">
+            <div class="product-img-placeholder">
+              <i class="fas fa-heart" style="color:var(--crimson); font-size:42px;"></i>
+              <span>Bridal Saree {{ i+1 }}</span>
+            </div>
+            <div class="product-badges"><span class="badge badge-wedding">✦ Bridal</span></div>
+          </div>
+          <div class="product-info">
+            <div class="category-tag">Wedding Collection</div>
+            <h3>Bridal Saree {{ i+1 }}</h3>
+            <div class="product-price"><span class="price-current">₹XX,XXX</span></div>
+            <span class="product-fabric-tag">Add via Admin</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div style="text-align:center; margin-top:40px; padding:30px; background:var(--ivory-dark); border:1px dashed var(--gold);">
+        <i class="fas fa-info-circle" style="color:var(--gold); font-size:24px; margin-bottom:10px; display:block;"></i>
+        <p style="font-family:var(--font-sans); font-size:13px; color:var(--warm-gray);">Add your 200+ wedding sarees through the <a href="{{ url_for('admin') }}" style="color:var(--crimson); font-weight:bold;">Admin Panel</a></p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Custom Order Banner -->
+<section style="background:var(--crimson); padding:60px 40px; text-align:center; color:white;">
+  <div class="section-label" style="color:var(--gold-light);">Can't find your perfect saree?</div>
+  <h2 style="font-family:var(--font-heading); font-size:36px; letter-spacing:3px; margin:12px 0;">Design a Bespoke Bridal Saree</h2>
+  <p style="font-style:italic; font-size:17px; opacity:0.85; max-width:500px; margin:0 auto 28px;">Our master craftsmen will weave your dream saree — every detail, exactly as you envision it</p>
+  <a href="{{ url_for('customize') }}" class="btn btn-gold">Start Customizing <i class="fas fa-magic"></i></a>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 🗓️ SAREE OCCASION PLANNER                  -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section section-alt" id="occasion-planner">
+  <div class="container" style="max-width:1100px">
+    <div class="section-header">
+      <div class="section-label">✦ Wedding Planner</div>
+      <h2 class="section-title">Saree Occasion Planner</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">Enter your total budget — get 3 curated saree packages, one saree per function</p>
+    </div>
+
+    <div style="background:white;box-shadow:var(--shadow);overflow:hidden">
+      <div style="background:linear-gradient(135deg,var(--crimson),var(--charcoal));padding:18px 28px;color:white;display:flex;align-items:center;gap:14px">
+        <i class="fas fa-calendar-heart" style="color:var(--gold-light);font-size:20px"></i>
+        <div style="font-family:var(--font-sans);font-size:11px;letter-spacing:3px;color:var(--gold-light);text-transform:uppercase">Plan Your Complete Wedding Wardrobe</div>
+      </div>
+      <div style="padding:32px 28px">
+        <div style="margin-bottom:24px">
+          <div class="form-group">
+            <label>Total Saree Budget (₹) *</label>
+            <input type="number" id="planBudget" placeholder="e.g. 50000" min="5000" step="1000" style="font-size:16px"/>
+          </div>
+        </div>
+        <div style="margin-bottom:24px">
+          <label style="display:block;font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:12px">Select Functions to Include</label>
+          <div style="display:flex;flex-wrap:wrap;gap:10px" id="functionPicker">
+            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+              <input type="checkbox" value="haldi" checked style="accent-color:var(--crimson)"> 🌼 Haldi
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+              <input type="checkbox" value="mehendi" checked style="accent-color:var(--crimson)"> 🌿 Mehendi
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+              <input type="checkbox" value="sangeet" checked style="accent-color:var(--crimson)"> 🎶 Sangeet
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+              <input type="checkbox" value="wedding" checked style="accent-color:var(--crimson)"> 👰 Wedding
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+              <input type="checkbox" value="reception" checked style="accent-color:var(--crimson)"> 💫 Reception
+            </label>
+          </div>
+        </div>
+        <button onclick="buildOccasionPlan()" style="width:100%;padding:15px;background:linear-gradient(135deg,var(--crimson),#6b1212);color:white;font-family:var(--font-sans);font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+          <i class="fas fa-wand-magic-sparkles"></i> Show Me My Saree Packages
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div id="planResults" style="display:none;padding:28px;background:var(--ivory);border-top:2px solid var(--gold)">
+        <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;display:flex;align-items:center;gap:8px">
+          <i class="fas fa-gem" style="color:var(--gold)"></i> Your 3 Wedding Saree Packages
+        </div>
+        <p id="planBudgetDisplay" style="font-size:14px;color:var(--charcoal);margin-bottom:20px"></p>
+
+        <!-- 3 Package columns -->
+        <div id="packGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px"></div>
+
+        <div style="margin-top:24px;text-align:center;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="{{ url_for('all_products') }}" class="btn btn-crimson"><i class="fas fa-shopping-bag"></i> Shop All Sarees</a>
+          <a href="{{ url_for('customize') }}" class="btn btn-outline"><i class="fas fa-magic"></i> Custom Bridal Order</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Chip highlight
+document.querySelectorAll('.fn-chip').forEach(chip => {
+  const update = () => {
+    const checked = chip.querySelector('input').checked;
+    chip.style.borderColor = checked ? 'var(--crimson)' : 'rgba(201,168,76,0.3)';
+    chip.style.background  = checked ? 'rgba(139,26,26,0.05)' : '';
+  };
+  chip.querySelector('input').addEventListener('change', update);
+  update();
+});
+
+// ── STATIC IMAGE POOL per function ──────────────────────────────
+// Each function maps to category image filenames from /static/images/categories/
+const IMG_POOL = {
+  haldi:    ['haldi_1','haldi_2','haldi_3','haldi_4','haldi_5','haldi_6','haldi_7','haldi_8','haldi_9','haldi_10'],
+  mehendi:  ['mahendi_1','mahendi_2','mahendi_3','mahendi_4','mahendi_5','mahendi_6','mahendi_7','mahendi_8','mahendi_9','mahendi_10'],
+  sangeet:  ['sangeet_1','sangeet_2','sangeet_3','sangeet_4','sangeet_5','sangeet_6','sangeet_7','sangeet_8','sangeet_9','sangeet_10'],
+  wedding:  ['bride_1','bride_2','bride_3','bride_4','bride_5','bride_6','bride_7','bride_8','bride_9','bride_10'],
+  reception:['reception_1','reception_2','reception_3','reception_4','reception_5','reception_6','reception_7','reception_8','reception_9','reception_10'],
+};
+
+const FN_META = {
+  haldi:    { emoji:'🌼', name:'Haldi',    label:'Haldi Saree',    fabric:'Cotton / Chiffon' },
+  mehendi:  { emoji:'🌿', name:'Mehendi',  label:'Mehendi Saree',  fabric:'Georgette / Crepe' },
+  sangeet:  { emoji:'🎶', name:'Sangeet',  label:'Sangeet Saree',  fabric:'Net / Organza' },
+  wedding:  { emoji:'👰', name:'Wedding',  label:'Bridal Saree',   fabric:'Silk / Banarasi' },
+  reception:{ emoji:'💫', name:'Reception',label:'Reception Saree',fabric:'Velvet / Tissue' },
+};
+
+// 3 packs: different budget weight per function
+// wedding always gets most, haldi/mehendi get least
+const PACKS = [
+  {
+    id: 1,
+    title: 'Package 1',
+    subtitle: 'Bridal Splurge 👰',
+    desc: 'Maximum budget on the wedding day saree — the rest kept elegant & light.',
+    color: '#8B1A1A',
+    bg: 'rgba(139,26,26,0.04)',
+    border: 'rgba(139,26,26,0.3)',
+    weights: { haldi:0.06, mehendi:0.07, sangeet:0.12, wedding:0.55, reception:0.20 },
+    imgIndex: { haldi:0, mehendi:0, sangeet:0, wedding:0, reception:0 }, // image index from pool
+  },
+  {
+    id: 2,
+    title: 'Package 2',
+    subtitle: 'Balanced Luxury ✨',
+    desc: 'Every function gets a beautiful look — no function feels underdressed.',
+    color: '#7a5c1e',
+    bg: 'rgba(201,168,76,0.06)',
+    border: 'rgba(201,168,76,0.4)',
+    weights: { haldi:0.11, mehendi:0.13, sangeet:0.19, wedding:0.40, reception:0.17 },
+    imgIndex: { haldi:2, mehendi:2, sangeet:2, wedding:2, reception:2 },
+  },
+  {
+    id: 3,
+    title: 'Package 3',
+    subtitle: 'Reception Glam 💫',
+    desc: 'Bold statement at reception — your after-party look is unforgettable.',
+    color: '#1a3a5c',
+    bg: 'rgba(26,58,92,0.04)',
+    border: 'rgba(26,58,92,0.3)',
+    weights: { haldi:0.07, mehendi:0.08, sangeet:0.14, wedding:0.38, reception:0.33 },
+    imgIndex: { haldi:4, mehendi:4, sangeet:4, wedding:4, reception:4 },
+  },
+];
+
+function buildOccasionPlan() {
+  const budget = parseInt(document.getElementById('planBudget').value);
+  if (!budget || budget < 5000) { alert('Please enter a budget of at least ₹5,000'); return; }
+
+  const selected = [...document.querySelectorAll('#functionPicker input:checked')].map(i => i.value);
+  if (!selected.length) { alert('Please select at least one function'); return; }
+
+  document.getElementById('planResults').style.display = 'block';
+  document.getElementById('planResults').scrollIntoView({ behavior:'smooth' });
+  document.getElementById('planBudgetDisplay').innerHTML =
+    `Your budget of <strong>₹${budget.toLocaleString('en-IN')}</strong> split across <strong>${selected.length}</strong> function${selected.length>1?'s':''} — in 3 different styles:`;
+
+  const packGrid = document.getElementById('packGrid');
+  packGrid.innerHTML = PACKS.map(pack => {
+    // Normalise weights for selected functions only
+    const totalW = selected.reduce((s, fn) => s + (pack.weights[fn] || 0.1), 0);
+
+    const items = selected.map(fn => {
+      const w = pack.weights[fn] || 0.1;
+      const alloc = Math.round((w / totalW) * budget / 100) * 100;
+      const meta = FN_META[fn];
+      const imgName = IMG_POOL[fn][pack.imgIndex[fn] % IMG_POOL[fn].length];
+      return { fn, meta, alloc, imgName };
+    });
+
+    const packTotal = items.reduce((s, i) => s + i.alloc, 0);
+
+    return `
+      <div style="background:${pack.bg};border:2px solid ${pack.border};overflow:hidden;border-radius:2px">
+        <!-- Pack header -->
+        <div style="background:${pack.color};color:white;padding:16px 20px">
+          <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:0.8;margin-bottom:4px">${pack.title}</div>
+          <div style="font-family:var(--font-heading);font-size:20px;letter-spacing:2px;margin-bottom:6px">${pack.subtitle}</div>
+          <div style="font-size:13px;opacity:0.85;font-style:italic">${pack.desc}</div>
+          <div style="margin-top:12px;font-family:var(--font-heading);font-size:22px;color:rgba(255,255,255,0.95)">
+            Total ₹${packTotal.toLocaleString('en-IN')}
+          </div>
+        </div>
+
+        <!-- Saree cards -->
+        <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
+          ${items.map(item => `
+            <div style="background:white;display:flex;gap:12px;align-items:stretch;border:1px solid rgba(0,0,0,0.07);overflow:hidden">
+              <!-- Image -->
+              <div style="width:90px;flex-shrink:0;overflow:hidden">
+                <img src="/static/images/categories/${item.imgName}.jpeg"
+                     alt="${item.meta.label}"
+                     style="width:100%;height:100%;object-fit:cover;display:block"
+                     onerror="this.parentElement.innerHTML='<div style=height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;background:var(--ivory)>🥻</div>'" />
+              </div>
+              <!-- Info -->
+              <div style="padding:12px;flex:1;display:flex;flex-direction:column;justify-content:space-between">
+                <div>
+                  <div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${pack.color};margin-bottom:4px">${item.meta.emoji} ${item.meta.name}</div>
+                  <div style="font-family:var(--font-heading);font-size:15px;color:var(--charcoal);margin-bottom:3px">${item.meta.label}</div>
+                  <div style="font-family:var(--font-sans);font-size:11px;color:var(--warm-gray)">${item.meta.fabric}</div>
+                </div>
+                <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-size:18px;color:${pack.color};font-weight:700">₹${item.alloc.toLocaleString('en-IN')}</span>
+                  <a href="/all-products?max_price=${item.alloc}" style="font-family:var(--font-sans);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:${pack.color};border:1px solid ${pack.color};padding:4px 10px;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='${pack.color}';this.style.color='white'" onmouseout="this.style.background='';this.style.color='${pack.color}'">Shop →</a>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Pack footer CTA -->
+        <div style="padding:0 16px 16px">
+          <a href="{{ url_for('customize') }}" style="display:block;text-align:center;padding:11px;background:${pack.color};color:white;font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;text-decoration:none;transition:filter 0.2s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">
+            <i class="fas fa-magic"></i> Order This Package Custom
+          </a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}1
+</script>
+{% endblock %}

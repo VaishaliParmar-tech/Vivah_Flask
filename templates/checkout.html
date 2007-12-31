@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% block title %}Checkout – Vivah{% endblock %}
+{% block extra_head %}
+<style>
+.checkout-layout{display:grid;grid-template-columns:1fr 380px;gap:36px;max-width:1200px;margin:0 auto;padding:50px 40px}
+.checkout-panel{background:white;padding:36px;box-shadow:var(--shadow)}
+.checkout-panel h2{font-family:var(--font-heading);font-size:22px;color:var(--crimson);letter-spacing:2px;margin-bottom:24px;padding-bottom:14px;border-bottom:2px solid var(--ivory-dark)}
+.payment-option{display:flex;align-items:center;gap:14px;padding:16px;border:2px solid var(--ivory-dark);margin-bottom:12px;cursor:pointer;transition:var(--transition)}
+.payment-option:hover{border-color:var(--gold);background:var(--ivory)}
+.payment-option input[type=radio]{accent-color:var(--crimson);width:18px;height:18px}
+.payment-option.selected{border-color:var(--crimson);background:rgba(139,26,26,0.03)}
+.payment-details{display:none;margin-top:16px;padding:20px;background:var(--ivory);border:1.5px solid rgba(201,168,76,0.3)}
+.payment-details.active{display:block}
+.card-input{width:100%;padding:11px 13px;border:1.5px solid rgba(201,168,76,0.3);background:white;font-family:var(--font-body);font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box}
+.card-input:focus{border-color:var(--crimson)}
+.qr-box{text-align:center;padding:20px 0}
+@media(max-width:900px){.checkout-layout{grid-template-columns:1fr}}
+</style>
+{% endblock %}
+{% block content %}
+<div style="background:var(--ivory-dark);padding:36px 40px;border-bottom:1px solid rgba(201,168,76,0.2);">
+  <div class="container" style="max-width:1200px;">
+    <div class="section-label">Final Step</div>
+    <h1 style="font-family:var(--font-heading);font-size:36px;color:var(--crimson);letter-spacing:3px;">Checkout</h1>
+  </div>
+</div>
+
+<form method="POST" action="{{ url_for('checkout') }}">
+<div class="checkout-layout">
+  <div>
+    <!-- Address -->
+    <div class="checkout-panel" style="margin-bottom:24px;">
+      <h2><i class="fas fa-map-marker-alt" style="color:var(--gold);margin-right:10px;"></i>Delivery Address</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>Full Address *</label>
+          <textarea name="address" required rows="2" placeholder="House/Flat No., Street, Area"></textarea>
+        </div>
+        <div class="form-group">
+          <label>City *</label>
+          <input type="text" name="city" required placeholder="e.g. Ahmedabad" value="Ahmedabad" />
+        </div>
+        <div class="form-group">
+          <label>State *</label>
+          <input type="text" name="state" required placeholder="e.g. Gujarat" value="Gujarat" />
+        </div>
+        <div class="form-group">
+          <label>PIN Code *</label>
+          <input type="text" name="pincode" required placeholder="380001" maxlength="6" />
+        </div>
+        <div class="form-group">
+          <label>Phone *</label>
+          <input type="tel" name="phone" required placeholder="+91 XXXXX XXXXX" value="{{ user.phone or '' }}" />
+        </div>
+      </div>
+    </div>
+    <!-- Payment -->
+    <div class="checkout-panel">
+      <h2><i class="fas fa-credit-card" style="color:var(--gold);margin-right:10px;"></i>Payment Method</h2>
+
+      <label class="payment-option selected" onclick="selectPayment('COD',this)">
+        <input type="radio" name="payment_method" value="COD" checked />
+        <div>
+          <div style="font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:1px;">Cash on Delivery</div>
+          <div style="font-size:13px;color:var(--warm-gray);">Pay when your saree arrives</div>
+        </div>
+        <i class="fas fa-money-bill-wave" style="color:var(--gold);margin-left:auto;font-size:22px;"></i>
+      </label>
+
+      <label class="payment-option" onclick="selectPayment('UPI',this)">
+        <input type="radio" name="payment_method" value="UPI" />
+        <div>
+          <div style="font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:1px;">UPI Payment</div>
+          <div style="font-size:13px;color:var(--warm-gray);">Google Pay, PhonePe, Paytm</div>
+        </div>
+        <i class="fas fa-mobile-alt" style="color:var(--gold);margin-left:auto;font-size:22px;"></i>
+      </label>
+
+      <!-- UPI Details Panel -->
+      <div class="payment-details" id="upi-details">
+        <div class="qr-box">
+          <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:14px">Scan QR to Pay</div>
+          <!-- Dummy QR Code SVG -->
+          <div style="display:inline-block;padding:12px;background:white;border:2px solid var(--gold);margin-bottom:14px">
+            <svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+              <rect width="150" height="150" fill="white"/>
+              <!-- QR finder patterns -->
+              <rect x="10" y="10" width="40" height="40" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+              <rect x="18" y="18" width="24" height="24" fill="#1a1a1a"/>
+              <rect x="100" y="10" width="40" height="40" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+              <rect x="108" y="18" width="24" height="24" fill="#1a1a1a"/>
+              <rect x="10" y="100" width="40" height="40" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+              <rect x="18" y="108" width="24" height="24" fill="#1a1a1a"/>
+              <!-- Data modules -->
+              <rect x="58" y="10" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="10" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="82" y="10" width="8" height="8" fill="#1a1a1a"/><rect x="58" y="22" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="70" y="22" width="8" height="8" fill="#1a1a1a"/><rect x="82" y="22" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="58" y="34" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="34" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="10" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="22" y="58" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="34" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="46" y="58" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="58" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="58" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="82" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="94" y="58" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="106" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="118" y="58" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="130" y="58" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="10" y="70" width="8" height="8" fill="#1a1a1a"/><rect x="34" y="70" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="58" y="70" width="8" height="8" fill="#1a1a1a"/><rect x="82" y="70" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="106" y="70" width="8" height="8" fill="#1a1a1a"/><rect x="130" y="70" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="22" y="82" width="8" height="8" fill="#1a1a1a"/><rect x="46" y="82" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="70" y="82" width="8" height="8" fill="#1a1a1a"/><rect x="94" y="82" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="118" y="82" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="58" y="94" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="94" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="82" y="94" width="8" height="8" fill="#1a1a1a"/><rect x="94" y="94" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="106" y="94" width="8" height="8" fill="#1a1a1a"/><rect x="118" y="94" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="130" y="94" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="58" y="106" width="8" height="8" fill="#1a1a1a"/><rect x="82" y="106" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="106" y="106" width="8" height="8" fill="#1a1a1a"/><rect x="130" y="106" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="58" y="118" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="118" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="94" y="118" width="8" height="8" fill="#1a1a1a"/><rect x="118" y="118" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="58" y="130" width="8" height="8" fill="#1a1a1a"/><rect x="82" y="130" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="106" y="130" width="8" height="8" fill="#1a1a1a"/><rect x="118" y="130" width="8" height="8" fill="#1a1a1a"/>
+              <rect x="130" y="130" width="8" height="8" fill="#1a1a1a"/>
+            </svg>
+          </div>
+          <div style="font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--charcoal);margin-bottom:4px">vivah@upi</div>
+          <div style="font-size:12px;color:var(--warm-gray);margin-bottom:16px">UPI ID: vivah.sarees@okaxis</div>
+          <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+            <div style="text-align:center;opacity:0.85">
+              <div style="width:44px;height:44px;border-radius:50%;background:#00b300;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;color:white;font-size:20px">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div style="font-size:10px;font-family:var(--font-sans)">PhonePe</div>
+            </div>
+            <div style="text-align:center;opacity:0.85">
+              <div style="width:44px;height:44px;border-radius:50%;background:#1a73e8;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;color:white;font-size:20px">
+                <i class="fab fa-google-pay" style="font-size:14px">G</i>
+              </div>
+              <div style="font-size:10px;font-family:var(--font-sans)">Google Pay</div>
+            </div>
+            <div style="text-align:center;opacity:0.85">
+              <div style="width:44px;height:44px;border-radius:50%;background:#002970;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;color:white;font-size:20px">
+                <i class="fas fa-wallet"></i>
+              </div>
+              <div style="font-size:10px;font-family:var(--font-sans)">Paytm</div>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:12px;color:var(--warm-gray);font-style:italic">After payment, click "Place Order" to confirm your order.</div>
+        </div>
+      </div>
+
+      <label class="payment-option" onclick="selectPayment('Card',this)">
+        <input type="radio" name="payment_method" value="Card" />
+        <div>
+          <div style="font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:1px;">Credit / Debit Card</div>
+          <div style="font-size:13px;color:var(--warm-gray);">Visa, Mastercard, RuPay</div>
+        </div>
+        <i class="fas fa-credit-card" style="color:var(--gold);margin-left:auto;font-size:22px;"></i>
+      </label>
+
+      <!-- Card Details Panel -->
+      <div class="payment-details" id="card-details">
+        <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:14px">Enter Card Details</div>
+        <div style="position:relative;margin-bottom:0">
+          <input class="card-input" type="text" id="card-number" placeholder="Card Number (16 digits)" maxlength="19"
+            oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim().slice(0,19)"
+            style="padding-right:48px"/>
+          <i class="fas fa-credit-card" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--warm-gray);margin-top:-6px"></i>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <input class="card-input" type="text" id="card-expiry" placeholder="MM / YY" maxlength="7"
+            oninput="let v=this.value.replace(/\D/g,'');if(v.length>=2){v=v.slice(0,2)+' / '+v.slice(2);}this.value=v.slice(0,7);"/>
+          <div style="position:relative">
+            <input class="card-input" type="password" id="card-cvv" placeholder="CVV" maxlength="3"
+              oninput="this.value=this.value.replace(/\D/g,'').slice(0,3)" style="padding-right:48px;margin-bottom:0"/>
+            <i class="fas fa-lock" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--warm-gray);margin-top:-6px"></i>
+          </div>
+        </div>
+        <input class="card-input" type="text" id="card-name" placeholder="Name on Card" style="text-transform:uppercase;margin-top:12px"/>
+        <div style="display:flex;gap:10px;margin-top:6px;opacity:0.6">
+          <i class="fab fa-cc-visa" style="font-size:28px;color:#1a1f71"></i>
+          <i class="fab fa-cc-mastercard" style="font-size:28px;color:#eb001b"></i>
+          <i class="fab fa-cc-amex" style="font-size:28px;color:#007bc1"></i>
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:var(--warm-gray)"><i class="fas fa-shield-alt" style="color:var(--gold);margin-right:4px"></i>Your card details are secure &amp; encrypted.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Summary -->
+  <div class="checkout-panel" style="height:fit-content;position:sticky;top:90px;">
+    <h2>Order Summary</h2>
+    {% for item in cart_products %}
+    <div style="display:flex;gap:14px;margin-bottom:16px;align-items:center;">
+      <div style="width:56px;height:72px;background:var(--ivory-dark);flex-shrink:0;overflow:hidden;">
+        {% if item.product.image %}
+          <img src="{{ url_for('static', filename='images/products/' + item.product.image) }}" style="width:100%;height:100%;object-fit:cover;" />
+        {% else %}
+          <div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:22px;">🥻</div>
+        {% endif %}
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:600;color:var(--charcoal);">{{ item.product.name }}</div>
+        <div style="font-family:var(--font-sans);font-size:12px;color:var(--warm-gray);">Qty: {{ item.qty }}</div>
+      </div>
+      <div style="font-size:15px;color:var(--crimson);font-weight:600;">₹{{ "{:,.0f}".format(item.product.price * item.qty) }}</div>
+    </div>
+    {% endfor %}
+    <hr style="border:none;border-top:1px solid var(--ivory-dark);margin:16px 0;"/>
+    <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;"><span>Subtotal</span><span>₹{{ "{:,.0f}".format(subtotal) }}</span></div>
+    {% if discount > 0 %}
+    <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;color:#2E7D32;"><span>Discount <small>({{ coupon.label if coupon else '' }})</small></span><span>– ₹{{ "{:,.0f}".format(discount) }}</span></div>
+    {% endif %}
+    <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;color:green;"><span>Shipping</span><span>{{ 'Free' if total >= 2999 else '₹199' }}</span></div>
+    <hr style="border:none;border-top:2px solid var(--ivory-dark);margin:12px 0;"/>
+    <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:600;color:var(--crimson);margin-bottom:24px;"><span>Total</span><span>₹{{ "{:,.0f}".format(total + (0 if total >= 2999 else 199)) }}</span></div>
+    <button type="submit" class="btn btn-crimson" style="width:100%;justify-content:center;font-size:12px;padding:16px;">
+      <i class="fas fa-lock"></i> Place Order Securely
+    </button>
+    <p style="text-align:center;font-family:var(--font-sans);font-size:11px;color:var(--warm-gray);margin-top:12px;"><i class="fas fa-shield-alt" style="color:var(--gold);margin-right:4px;"></i>100% Secure &amp; Trusted</p>
+  </div>
+</div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function selectPayment(method, clickedLabel) {
+  // Update radio
+  document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+  clickedLabel.classList.add('selected');
+  clickedLabel.querySelector('input[type=radio]').checked = true;
+
+  // Show/hide detail panels
+  document.getElementById('upi-details').classList.toggle('active', method === 'UPI');
+  document.getElementById('card-details').classList.toggle('active', method === 'Card');
+}
+</script>
+{% endblock %}

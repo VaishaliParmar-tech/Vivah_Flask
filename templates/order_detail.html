@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Order {{ order.order_number }} – Vivah{% endblock %}
+{% block content %}
+<div style="background:var(--ivory-dark);padding:40px;text-align:center;border-bottom:1px solid rgba(201,168,76,0.2);">
+  <div class="section-label">Order Details</div>
+  <h1 style="font-family:var(--font-heading);font-size:clamp(24px,4vw,40px);color:var(--crimson);letter-spacing:3px;">{{ order.order_number }}</h1>
+  <div class="section-divider"></div>
+</div>
+<section class="section">
+  <div class="container" style="max-width:800px;">
+    <div style="background:white;padding:36px;box-shadow:var(--shadow);">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:28px;padding-bottom:22px;border-bottom:2px solid var(--ivory-dark);">
+        <div>
+          <p style="font-family:var(--font-sans);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;">Placed On</p>
+          <p style="font-size:17px;">{{ order.created_at.strftime('%d %B %Y, %I:%M %p') }}</p>
+        </div>
+        <div>
+          <p style="font-family:var(--font-sans);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;">Status</p>
+          <span style="display:inline-block;padding:6px 16px;background:var(--crimson);color:white;font-family:var(--font-sans);font-size:12px;letter-spacing:2px;">{{ order.status }}</span>
+        </div>
+        <div>
+          <p style="font-family:var(--font-sans);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;">Payment</p>
+          <p style="font-size:17px;">{{ order.payment_method }}</p>
+        </div>
+        <div>
+          <p style="font-family:var(--font-sans);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;">Total</p>
+          <p style="font-size:24px;color:var(--crimson);font-weight:600;">₹{{ "{:,.0f}".format(order.total) }}</p>
+        </div>
+      </div>
+
+      {% if order.items_json %}
+      <h3 style="font-family:var(--font-heading);font-size:20px;color:var(--charcoal);letter-spacing:2px;margin-bottom:16px;">Items Ordered</h3>
+      <div style="margin-bottom:24px;" id="itemsContainer"></div>
+      <script>
+        try {
+          const items = {{ order.items_json|safe }};
+          const c = document.getElementById('itemsContainer');
+          items.forEach(item => {
+            c.innerHTML += `<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--ivory-dark);font-size:15px;">
+              <span>${item.name} <span style="color:var(--warm-gray);">× ${item.qty}</span></span>
+              <span style="color:var(--crimson);font-weight:600;">₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
+            </div>`;
+          });
+        } catch(e) {}
+      </script>
+      {% endif %}
+
+      <div style="background:var(--ivory-dark);padding:18px 22px;border-left:4px solid var(--gold);">
+        <p style="font-family:var(--font-sans);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;">Delivery Address</p>
+        <p style="font-size:15px;">{{ order.address }}</p>
+      </div>
+
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="{{ url_for('track_order') }}?order_number={{ order.order_number }}" class="btn btn-gold"><i class="fas fa-map-marker-alt"></i> Track Order</a>
+        <a href="{{ url_for('profile') }}#orders" class="btn btn-outline">All Orders</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
