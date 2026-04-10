@@ -354,34 +354,38 @@
     <!-- COUPONS -->
     <div class="tab-panel" id="tab-coupons">
       <div class="card" style="margin-bottom:24px">
-        <div class="card-header"><h2>Add New Coupon</h2></div>
+        <div class="card-header"><h2><i class="fas fa-tag" style="color:var(--gold);margin-right:8px"></i>Add New Coupon</h2></div>
         <div class="card-body">
-          <form action="{{ url_for('admin_add_coupon') }}" method="POST" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;align-items:end">
-            <div class="form-group" style="margin:0">
-              <label>Coupon Code *</label>
-              <input type="text" name="code" required placeholder="e.g. VIVAH20" style="text-transform:uppercase"/>
-            </div>
-            <div class="form-group" style="margin:0">
-              <label>Discount Type *</label>
-              <select name="discount_type" required>
-                <option value="percent">Percentage (%)</option>
-                <option value="flat">Flat Amount (₹)</option>
-              </select>
-            </div>
-            <div class="form-group" style="margin:0">
-              <label>Discount Value *</label>
-              <input type="number" name="discount_value" required placeholder="e.g. 20" min="1" step="0.01"/>
-            </div>
-            <div class="form-group" style="margin:0">
-              <label>Min. Order Amount (₹)</label>
-              <input type="number" name="min_order" placeholder="0" min="0" step="0.01" value="0"/>
-            </div>
-            <div class="form-group" style="margin:0">
-              <label>Max Uses (blank = unlimited)</label>
-              <input type="number" name="max_uses" placeholder="Unlimited" min="1"/>
-            </div>
-            <div style="margin:0">
-              <button type="submit" class="btn btn-gold" style="width:100%"><i class="fas fa-plus"></i> Add Coupon</button>
+          <form action="{{ url_for('admin_add_coupon') }}" method="POST">
+            <div class="form-grid">
+              <div class="fg">
+                <label>Coupon Code *</label>
+                <input type="text" name="code" required placeholder="e.g. VIVAH20" style="text-transform:uppercase;letter-spacing:2px;font-weight:700"/>
+              </div>
+              <div class="fg">
+                <label>Discount Type *</label>
+                <select name="discount_type" required>
+                  <option value="percent">Percentage (%)</option>
+                  <option value="flat">Flat Amount (₹)</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label>Discount Value *</label>
+                <input type="number" name="discount_value" required placeholder="e.g. 20" min="1" step="0.01"/>
+              </div>
+              <div class="fg">
+                <label>Min. Order Amount (₹)</label>
+                <input type="number" name="min_order" placeholder="0" min="0" step="0.01" value="0"/>
+              </div>
+              <div class="fg">
+                <label>Max Uses <small style="color:var(--warm-gray);text-transform:none;letter-spacing:0">(leave blank = unlimited)</small></label>
+                <input type="number" name="max_uses" placeholder="Unlimited" min="1"/>
+              </div>
+              <div class="fg" style="display:flex;align-items:flex-end">
+                <button type="submit" class="btn btn-gold" style="width:100%;padding:10px 0;justify-content:center">
+                  <i class="fas fa-plus-circle"></i> Add Coupon
+                </button>
+              </div>
             </div>
           </form>
         </div>

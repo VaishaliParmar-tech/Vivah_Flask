@@ -246,61 +246,86 @@ document.querySelectorAll('.fn-chip').forEach(chip => {
   update();
 });
 
-// ── STATIC IMAGE POOL per function ──────────────────────────────
-// Each function maps to category image filenames from /static/images/categories/
-const IMG_POOL = {
-  haldi:    ['haldi_1','haldi_2','haldi_3','haldi_4','haldi_5','haldi_6','haldi_7','haldi_8','haldi_9','haldi_10'],
-  mehendi:  ['mahendi_1','mahendi_2','mahendi_3','mahendi_4','mahendi_5','mahendi_6','mahendi_7','mahendi_8','mahendi_9','mahendi_10'],
-  sangeet:  ['sangeet_1','sangeet_2','sangeet_3','sangeet_4','sangeet_5','sangeet_6','sangeet_7','sangeet_8','sangeet_9','sangeet_10'],
-  wedding:  ['bride_1','bride_2','bride_3','bride_4','bride_5','bride_6','bride_7','bride_8','bride_9','bride_10'],
-  reception:['reception_1','reception_2','reception_3','reception_4','reception_5','reception_6','reception_7','reception_8','reception_9','reception_10'],
-};
+// Wedding products from admin (is_wedding = True)
+const WEDDING_PRODUCTS = {{ wedding_json | tojson }};
 
 const FN_META = {
-  haldi:    { emoji:'🌼', name:'Haldi',    label:'Haldi Saree',    fabric:'Cotton / Chiffon' },
-  mehendi:  { emoji:'🌿', name:'Mehendi',  label:'Mehendi Saree',  fabric:'Georgette / Crepe' },
-  sangeet:  { emoji:'🎶', name:'Sangeet',  label:'Sangeet Saree',  fabric:'Net / Organza' },
-  wedding:  { emoji:'👰', name:'Wedding',  label:'Bridal Saree',   fabric:'Silk / Banarasi' },
-  reception:{ emoji:'💫', name:'Reception',label:'Reception Saree',fabric:'Velvet / Tissue' },
+  haldi:    { emoji:'🌼', name:'Haldi',    label:'Haldi Saree',    fabric:'Cotton / Chiffon / Georgette' },
+  mehendi:  { emoji:'🌿', name:'Mehendi',  label:'Mehendi Saree',  fabric:'Georgette / Crepe / Chiffon' },
+  sangeet:  { emoji:'🎶', name:'Sangeet',  label:'Sangeet Saree',  fabric:'Net / Organza / Sequin' },
+  wedding:  { emoji:'👰', name:'Wedding',  label:'Bridal Saree',   fabric:'Silk / Banarasi / Kanjivaram' },
+  reception:{ emoji:'💫', name:'Reception',label:'Reception Saree',fabric:'Velvet / Tissue / Net' },
 };
 
-// 3 packs: different budget weight per function
-// wedding always gets most, haldi/mehendi get least
+const FN_KEYWORDS = {
+  haldi:    ['cotton','chiffon','georgette','haldi','yellow','light'],
+  mehendi:  ['georgette','crepe','chiffon','mehendi','green','mahendi'],
+  sangeet:  ['net','organza','sangeet','party','sequin','shimmer'],
+  wedding:  ['silk','banarasi','kanjivaram','patola','gharchola','panetar','bridal','bride','wedding'],
+  reception:['velvet','tissue','net','organza','reception','evening'],
+};
+
 const PACKS = [
   {
-    id: 1,
-    title: 'Package 1',
-    subtitle: 'Bridal Splurge 👰',
-    desc: 'Maximum budget on the wedding day saree — the rest kept elegant & light.',
-    color: '#8B1A1A',
-    bg: 'rgba(139,26,26,0.04)',
-    border: 'rgba(139,26,26,0.3)',
-    weights: { haldi:0.06, mehendi:0.07, sangeet:0.12, wedding:0.55, reception:0.20 },
-    imgIndex: { haldi:0, mehendi:0, sangeet:0, wedding:0, reception:0 }, // image index from pool
+    id:1, title:'Package 1', subtitle:'Bridal Splurge 👰',
+    desc:'Maximum budget on the wedding day saree.',
+    color:'#8B1A1A', bg:'rgba(139,26,26,0.04)', border:'rgba(139,26,26,0.3)',
+    weights:{ haldi:0.06, mehendi:0.07, sangeet:0.13, wedding:0.54, reception:0.20 },
   },
   {
-    id: 2,
-    title: 'Package 2',
-    subtitle: 'Balanced Luxury ✨',
-    desc: 'Every function gets a beautiful look — no function feels underdressed.',
-    color: '#7a5c1e',
-    bg: 'rgba(201,168,76,0.06)',
-    border: 'rgba(201,168,76,0.4)',
-    weights: { haldi:0.11, mehendi:0.13, sangeet:0.19, wedding:0.40, reception:0.17 },
-    imgIndex: { haldi:2, mehendi:2, sangeet:2, wedding:2, reception:2 },
+    id:2, title:'Package 2', subtitle:'Balanced Luxury ✨',
+    desc:'Beautiful look at every function — nothing underdressed.',
+    color:'#7a5c1e', bg:'rgba(201,168,76,0.05)', border:'rgba(201,168,76,0.4)',
+    weights:{ haldi:0.11, mehendi:0.13, sangeet:0.20, wedding:0.40, reception:0.16 },
   },
   {
-    id: 3,
-    title: 'Package 3',
-    subtitle: 'Reception Glam 💫',
-    desc: 'Bold statement at reception — your after-party look is unforgettable.',
-    color: '#1a3a5c',
-    bg: 'rgba(26,58,92,0.04)',
-    border: 'rgba(26,58,92,0.3)',
-    weights: { haldi:0.07, mehendi:0.08, sangeet:0.14, wedding:0.38, reception:0.33 },
-    imgIndex: { haldi:4, mehendi:4, sangeet:4, wedding:4, reception:4 },
+    id:3, title:'Package 3', subtitle:'Reception Glam 💫',
+    desc:'Make your biggest statement at the reception.',
+    color:'#1a3a5c', bg:'rgba(26,58,92,0.04)', border:'rgba(26,58,92,0.3)',
+    weights:{ haldi:0.07, mehendi:0.09, sangeet:0.15, wedding:0.38, reception:0.31 },
   },
 ];
+
+// ── KEY FIX: Build a sorted pool per function ONCE, then each pack picks a different index ──
+function buildSortedPool(fn) {
+  const keywords = FN_KEYWORDS[fn] || [];
+  return WEDDING_PRODUCTS.map(p => {
+    const text = (p.name+' '+p.fabric+' '+p.color+' '+p.occasion+' '+p.category_name).toLowerCase();
+    const score = keywords.filter(k => text.includes(k)).length;
+    return { ...p, score };
+  }).sort((a, b) => b.score - a.score || b.price - a.price);
+  // sorted: best keyword match first, then higher price first (more expensive = more premium)
+}
+
+// Pick product for a pack: packIdx 0,1,2 → pick different products from the sorted pool
+// Pack 0 (Bridal Splurge): most expensive match
+// Pack 1 (Balanced): mid-range match
+// Pack 2 (Reception Glam): picks differently weighted
+function findProduct(sortedPool, alloc, packIdx) {
+  if (!sortedPool.length) return null;
+
+  // Filter to affordable range — allow 30% over since budget weights differ
+  let affordable = sortedPool.filter(p => p.price <= alloc * 1.3);
+  if (!affordable.length) affordable = sortedPool; // fallback: no price filter
+
+  // Each pack picks a different product:
+  // packIdx 0 → pick highest priced (luxury focus)
+  // packIdx 1 → pick closest to alloc (balanced)
+  // packIdx 2 → pick lowest priced in pool (budget-friendly for that function)
+  let sorted;
+  if (packIdx === 0) {
+    // most expensive within budget
+    sorted = [...affordable].sort((a,b) => b.price - a.price);
+  } else if (packIdx === 1) {
+    // closest to allocated budget
+    sorted = [...affordable].sort((a,b) => Math.abs(a.price - alloc) - Math.abs(b.price - alloc));
+  } else {
+    // least expensive (saves budget for reception)
+    sorted = [...affordable].sort((a,b) => a.price - b.price);
+  }
+
+  return sorted[0] || null;
+}
 
 function buildOccasionPlan() {
   const budget = parseInt(document.getElementById('planBudget').value);
@@ -309,74 +334,90 @@ function buildOccasionPlan() {
   const selected = [...document.querySelectorAll('#functionPicker input:checked')].map(i => i.value);
   if (!selected.length) { alert('Please select at least one function'); return; }
 
+  if (WEDDING_PRODUCTS.length === 0) {
+    document.getElementById('planResults').style.display = 'block';
+    document.getElementById('planResults').scrollIntoView({ behavior:'smooth' });
+    document.getElementById('packGrid').innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--warm-gray)">
+        <i class="fas fa-box-open" style="font-size:48px;color:var(--gold);display:block;margin-bottom:16px"></i>
+        <h3 style="font-family:var(--font-heading);font-size:22px;color:var(--charcoal);margin-bottom:10px">No Wedding Sarees Added Yet</h3>
+        <p style="margin-bottom:20px">Add products in the Admin Panel and mark them as <strong>💍 Wedding Collection</strong> to see package suggestions here.</p>
+        <a href="{{ url_for('admin') }}" class="btn btn-crimson"><i class="fas fa-plus"></i> Add Wedding Products</a>
+      </div>`;
+    document.getElementById('planBudgetDisplay').textContent = '';
+    return;
+  }
+
   document.getElementById('planResults').style.display = 'block';
   document.getElementById('planResults').scrollIntoView({ behavior:'smooth' });
   document.getElementById('planBudgetDisplay').innerHTML =
-    `Your budget of <strong>₹${budget.toLocaleString('en-IN')}</strong> split across <strong>${selected.length}</strong> function${selected.length>1?'s':''} — in 3 different styles:`;
+    `Budget <strong>₹${budget.toLocaleString('en-IN')}</strong> split across <strong>${selected.length}</strong> function${selected.length>1?'s':''} — 3 different packages:`;
+
+  // Pre-build sorted pools for each selected function (done once, shared across packs)
+  const pools = {};
+  selected.forEach(fn => { pools[fn] = buildSortedPool(fn); });
 
   const packGrid = document.getElementById('packGrid');
-  packGrid.innerHTML = PACKS.map(pack => {
-    // Normalise weights for selected functions only
-    const totalW = selected.reduce((s, fn) => s + (pack.weights[fn] || 0.1), 0);
+
+  packGrid.innerHTML = PACKS.map((pack, packIdx) => {
+    const totalW = selected.reduce((s,fn) => s + (pack.weights[fn]||0.1), 0);
 
     const items = selected.map(fn => {
       const w = pack.weights[fn] || 0.1;
-      const alloc = Math.round((w / totalW) * budget / 100) * 100;
-      const meta = FN_META[fn];
-      const imgName = IMG_POOL[fn][pack.imgIndex[fn] % IMG_POOL[fn].length];
-      return { fn, meta, alloc, imgName };
+      const alloc = Math.round((w/totalW)*budget/100)*100;
+      // ← Pass packIdx so each package picks a DIFFERENT product
+      const product = findProduct(pools[fn], alloc, packIdx);
+      return { fn, meta:FN_META[fn], alloc, product };
     });
 
-    const packTotal = items.reduce((s, i) => s + i.alloc, 0);
+    const packTotal = items.reduce((s,i) => s + (i.product ? i.product.price : i.alloc), 0);
 
     return `
-      <div style="background:${pack.bg};border:2px solid ${pack.border};overflow:hidden;border-radius:2px">
-        <!-- Pack header -->
-        <div style="background:${pack.color};color:white;padding:16px 20px">
-          <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:0.8;margin-bottom:4px">${pack.title}</div>
-          <div style="font-family:var(--font-heading);font-size:20px;letter-spacing:2px;margin-bottom:6px">${pack.subtitle}</div>
-          <div style="font-size:13px;opacity:0.85;font-style:italic">${pack.desc}</div>
-          <div style="margin-top:12px;font-family:var(--font-heading);font-size:22px;color:rgba(255,255,255,0.95)">
-            Total ₹${packTotal.toLocaleString('en-IN')}
-          </div>
+      <div style="background:${pack.bg};border:2px solid ${pack.border};overflow:hidden">
+        <div style="background:${pack.color};color:white;padding:16px 18px">
+          <div style="font-family:var(--font-sans);font-size:9px;letter-spacing:3px;text-transform:uppercase;opacity:0.8;margin-bottom:3px">${pack.title}</div>
+          <div style="font-family:var(--font-heading);font-size:19px;letter-spacing:2px;margin-bottom:5px">${pack.subtitle}</div>
+          <div style="font-size:13px;opacity:0.85;font-style:italic;margin-bottom:10px">${pack.desc}</div>
+          <div style="font-family:var(--font-heading);font-size:20px">Total ₹${packTotal.toLocaleString('en-IN')}</div>
         </div>
 
-        <!-- Saree cards -->
-        <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
-          ${items.map(item => `
-            <div style="background:white;display:flex;gap:12px;align-items:stretch;border:1px solid rgba(0,0,0,0.07);overflow:hidden">
-              <!-- Image -->
-              <div style="width:90px;flex-shrink:0;overflow:hidden">
-                <img src="/static/images/categories/${item.imgName}.jpeg"
-                     alt="${item.meta.label}"
-                     style="width:100%;height:100%;object-fit:cover;display:block"
-                     onerror="this.parentElement.innerHTML='<div style=height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;background:var(--ivory)>🥻</div>'" />
+        <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+          ${items.map(item => item.product ? `
+            <div style="background:white;display:flex;gap:0;border:1px solid rgba(0,0,0,0.07);overflow:hidden">
+              <div style="width:80px;flex-shrink:0;position:relative">
+                <img src="/static/images/products/${item.product.image}"
+                     alt="${item.product.name}"
+                     style="width:100%;height:100%;object-fit:cover;display:block;min-height:90px"
+                     onerror="this.parentElement.style.background='var(--ivory)';this.style.display='none'"/>
+                <div style="position:absolute;top:0;left:0;background:${pack.color};color:white;font-size:11px;padding:2px 6px">${item.meta.emoji}</div>
               </div>
-              <!-- Info -->
-              <div style="padding:12px;flex:1;display:flex;flex-direction:column;justify-content:space-between">
-                <div>
-                  <div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${pack.color};margin-bottom:4px">${item.meta.emoji} ${item.meta.name}</div>
-                  <div style="font-family:var(--font-heading);font-size:15px;color:var(--charcoal);margin-bottom:3px">${item.meta.label}</div>
-                  <div style="font-family:var(--font-sans);font-size:11px;color:var(--warm-gray)">${item.meta.fabric}</div>
-                </div>
-                <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
-                  <span style="font-size:18px;color:${pack.color};font-weight:700">₹${item.alloc.toLocaleString('en-IN')}</span>
-                  <a href="/all-products?max_price=${item.alloc}" style="font-family:var(--font-sans);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:${pack.color};border:1px solid ${pack.color};padding:4px 10px;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='${pack.color}';this.style.color='white'" onmouseout="this.style.background='';this.style.color='${pack.color}'">Shop →</a>
+              <div style="padding:10px 12px;flex:1;min-width:0">
+                <div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${pack.color};margin-bottom:3px">${item.meta.name}</div>
+                <div style="font-family:var(--font-heading);font-size:14px;color:var(--charcoal);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item.product.name}</div>
+                <div style="font-family:var(--font-sans);font-size:11px;color:var(--warm-gray);margin-bottom:8px">${item.product.fabric||item.meta.fabric}</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap">
+                  <span style="font-size:16px;color:${pack.color};font-weight:700">₹${item.product.price.toLocaleString('en-IN')}</span>
+                  <a href="/product/${item.product.id}" style="font-family:var(--font-sans);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:${pack.color};border:1px solid ${pack.color};padding:3px 9px;text-decoration:none">View →</a>
                 </div>
               </div>
+            </div>
+          ` : `
+            <div style="background:white;padding:14px;border:1px dashed rgba(0,0,0,0.1);text-align:center">
+              <div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${pack.color};margin-bottom:4px">${item.meta.emoji} ${item.meta.name}</div>
+              <div style="font-size:12px;color:var(--warm-gray)">Budget: ₹${item.alloc.toLocaleString('en-IN')}</div>
+              <a href="/all-products?max_price=${item.alloc}" style="font-size:11px;color:${pack.color};margin-top:4px;display:block">Browse options →</a>
             </div>
           `).join('')}
         </div>
 
-        <!-- Pack footer CTA -->
-        <div style="padding:0 16px 16px">
-          <a href="{{ url_for('customize') }}" style="display:block;text-align:center;padding:11px;background:${pack.color};color:white;font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;text-decoration:none;transition:filter 0.2s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">
-            <i class="fas fa-magic"></i> Order This Package Custom
+        <div style="padding:0 14px 14px">
+          <a href="{{ url_for('customize') }}" style="display:block;text-align:center;padding:10px;background:${pack.color};color:white;font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;text-decoration:none">
+            <i class="fas fa-magic"></i> Order Custom
           </a>
         </div>
       </div>
     `;
   }).join('');
-}1
+}
 </script>
 {% endblock %}

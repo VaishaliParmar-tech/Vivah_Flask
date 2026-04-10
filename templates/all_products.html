@@ -82,8 +82,8 @@
 /* Discount badge */
 .discount-badge{position:absolute;top:10px;left:10px;background:var(--crimson);color:white;font-family:var(--font-sans);font-size:9px;letter-spacing:1px;padding:3px 8px;font-weight:700;z-index:2}
 
-@media(max-width:900px){.shop-layout{grid-template-columns:1fr}.filter-sidebar{position:static}}
-@media(max-width:600px){.shop-layout{padding:16px}}
+@media(max-width:900px){.shop-layout{grid-template-columns:1fr;padding:20px 16px}.filter-sidebar{position:static}}
+@media(max-width:600px){.shop-layout{padding:12px}.sort-bar{flex-direction:column;gap:10px;align-items:flex-start}}
 </style>
 {% endblock %}
 
@@ -336,31 +336,6 @@
       </div>
       <div style="padding:32px 28px">
 
-        <!-- Role selector -->
-        <div style="margin-bottom:24px">
-          <label style="display:block;font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:12px">I Am Shopping As</label>
-          <div style="display:flex;gap:12px;flex-wrap:wrap" id="rolePicker">
-            <button type="button" class="role-btn active" data-role="bride" onclick="selectRole('bride',this)">
-              <span style="font-size:22px;display:block;margin-bottom:4px">👰</span> Bride
-            </button>
-            <button type="button" class="role-btn" data-role="guest" onclick="selectRole('guest',this)">
-              <span style="font-size:22px;display:block;margin-bottom:4px">💃</span> Guest
-            </button>
-            <button type="button" class="role-btn" data-role="office" onclick="selectRole('office',this)">
-              <span style="font-size:22px;display:block;margin-bottom:4px">💼</span> Office Woman
-            </button>
-          </div>
-          <div id="roleHint" style="margin-top:10px;font-size:13px;color:var(--warm-gray);font-style:italic;padding:8px 14px;background:var(--ivory);border-left:3px solid var(--gold)">
-            👰 <strong>Bride:</strong> Heavy bridal sarees — Silk, Banarasi, Kanjivaram with rich colors
-          </div>
-        </div>
-
-        <style>
-          .role-btn{padding:14px 20px;border:2px solid rgba(201,168,76,0.3);background:var(--ivory);font-family:var(--font-sans);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--charcoal);cursor:pointer;transition:all 0.2s;min-width:100px;text-align:center}
-          .role-btn:hover{border-color:var(--gold);background:white}
-          .role-btn.active{border-color:var(--crimson);background:rgba(139,26,26,0.06);color:var(--crimson)}
-        </style>
-
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:20px">
 
           <div class="form-group">
@@ -490,59 +465,22 @@ function toggleWishlist(id) {
 // ─── LOCAL SAREE RECOMMENDATION (No API) ─────────────────────
 const allProducts = {{ products_json | tojson }};
 
-// Role definitions — override fabrics/occasions by role
-const ROLE_PROFILES = {
-  bride: {
-    label: 'Bride 👰',
-    hint: '👰 <strong>Bride:</strong> Heavy bridal sarees — Silk, Banarasi, Kanjivaram with rich colors',
-    extraFabrics: ['Silk','Banarasi','Kanjivaram','Patola','Gharchola','Panetar'],
-    extraOccasions: ['Bridal','Wedding','Bride'],
-    budgetBoost: true,
-  },
-  guest: {
-    label: 'Guest 💃',
-    hint: '💃 <strong>Guest:</strong> Semi-formal, not too heavy — Georgette, Chiffon, Net in festive colors',
-    extraFabrics: ['Georgette','Chiffon','Net','Organza','Crepe'],
-    extraOccasions: ['Sangeet','Reception','Party'],
-    budgetBoost: false,
-  },
-  office: {
-    label: 'Office Woman 💼',
-    hint: '💼 <strong>Office:</strong> Lightweight, dignified — Cotton, Linen, soft Silk in sober tones',
-    extraFabrics: ['Cotton','Linen','Chanderi','Silk','Chiffon'],
-    extraOccasions: ['Casual','Daily','Office'],
-    budgetBoost: false,
-  },
-};
-
-let activeRole = 'bride';
-function selectRole(role, btn) {
-  activeRole = role;
-  document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('roleHint').innerHTML = ROLE_PROFILES[role].hint;
-}
-
-function recommendSaree(skin, weight, budget, occasion, role) {
+function recommendSaree(skin, weight, budget, occasion) {
     let colors = [];
     let fabrics = [];
-    const rp = ROLE_PROFILES[role] || ROLE_PROFILES['bride'];
 
-    if (skin === 'dark')   colors = ['Red','Maroon','Royal Blue','Mustard','Gold'];
-    else if (skin === 'fair')   colors = ['Pastel Pink','Peach','Lavender','Mint Green','Pink','Light'];
-    else if (skin === 'medium') colors = ['Green','Teal','Orange','Magenta','Yellow','Rust'];
+    if (skin === 'dark')        colors = ['Maroon','Royal Blue','Mustard','Gold'];
+    else if (skin === 'fair')   colors = ['Pastel Pink','Peach','Lavender','Mint Green','Pink','Light','Red',,'Yellow'];
+    else if (skin === 'medium') colors = ['Green','Teal','Orange','Magenta','Rust'];
 
-    // Role fabrics take priority, body type adds to it
-    fabrics = [...rp.extraFabrics];
-    if (weight === 'slim')  fabrics.push('Net','Organza','Tissue');
-    else if (weight === 'curvy') fabrics.push('Georgette','Crepe');
-    else if (weight === 'plus')  fabrics.push('Chiffon','Cotton');
+    if (weight === 'slim')  fabrics = ['Net','Organza','Chiffon','Tissue'];
+    else if (weight === 'curvy') fabrics = ['Silk','Georgette','Crepe','Banarasi'];
+    else if (weight === 'plus')  fabrics = ['Chiffon','Cotton'];
 
-    // Occasions from role + UI selection
-    let occKeywords = [...rp.extraOccasions];
-    if (occasion === 'wedding') occKeywords.push('Bridal','Wedding','Bride','Panetar','Gharchola');
-    else if (occasion === 'party') occKeywords.push('Party','Reception','Sangeet');
-    else if (occasion === 'casual') occKeywords.push('Casual','Daily','Cotton','Ajarakh');
+    let occKeywords = [];
+    if (occasion === 'wedding') occKeywords = ['Bridal','Wedding','Bride','Panetar','Gharchola'];
+    else if (occasion === 'party') occKeywords = ['Party','Reception','Sangeet'];
+    else if (occasion === 'casual') occKeywords = ['Casual','Daily','Cotton','Ajarakh'];
 
     let min = 0, max = 9999999;
     if (budget === 'low')    { min = 0;     max = 1000;  }
@@ -579,13 +517,11 @@ function getRecommendation() {
     const build    = document.getElementById('rec-build').value;
     const occasion = document.getElementById('rec-occasion').value;
     const budget   = document.getElementById('rec-budget').value;
-    const role     = activeRole;
-
     if (!skin || !build) {
         alert('Please select at least Skin Tone and Body Type.'); return;
     }
 
-    const results = recommendSaree(skin, build, budget, occasion, role);
+    const results = recommendSaree(skin, build, budget, occasion);
 
     document.getElementById('rec-results').style.display = 'block';
     document.getElementById('rec-results').scrollIntoView({ behavior: 'smooth' });
@@ -598,10 +534,7 @@ function getRecommendation() {
     const buildLabels  = { slim:'Slim', curvy:'Curvy', plus:'Plus Size' };
     const occLabels    = { wedding:'Wedding', party:'Party / Reception', casual:'Casual' };
     const budgetLabels = { low:'under ₹1,000', medium:'₹1,000–₹3,000', high:'₹3,000–₹10,000', luxury:'above ₹10,000' };
-    const roleLabels   = { bride:'Bride 👰', guest:'Guest 💃', office:'Office Woman 💼' };
-
     summaryEl.innerHTML = `<i class="fas fa-wand-magic-sparkles" style="color:var(--gold);margin-right:6px"></i>
-        <strong>${roleLabels[role]||role}</strong> ·
         Found <strong>${results.length}</strong> saree${results.length !== 1 ? 's' : ''} for
         <strong>${skinLabels[skin]||skin}</strong> skin &amp;
         <strong>${buildLabels[build]||build}</strong> body type

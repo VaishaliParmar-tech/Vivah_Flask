@@ -1,18 +1,19 @@
+{% block extra_head %}
+<style>
+@media(max-width:700px){
+  .section .container > div[style*="grid-template-columns:1fr 1fr"]{display:block!important}
+  .section .container > div > div:first-child{margin-bottom:20px}
+  .section .container > div > div[style*="padding-top:20px"]{padding-top:0!important}
+  .section .container > div > div[style*="gap:14px"]{flex-wrap:wrap}
+}
+</style>
+{% endblock %}
 {% extends "base.html" %}
 {% block title %}{{ product.name }} – Vivah{% endblock %}
 {% block content %}
-<style>
-  @media(max-width:768px){
-    .product-detail-layout{grid-template-columns:1fr !important;gap:24px !important;}
-  }
-  @media(max-width:480px){
-    .product-detail-layout{gap:16px !important;}
-    .section{padding:24px 14px !important;}
-  }
-  </style>
 <section class="section">
   <div class="container">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;" class="product-detail-layout">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;">
       <!-- Image -->
       <div>
         <div style="aspect-ratio:3/4; background:var(--ivory-dark); position:relative; overflow:hidden;">
