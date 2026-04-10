@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 {% block title %}{{ product.name }} – Vivah{% endblock %}
 {% block content %}
+<style>
+  @media(max-width:768px){
+    .product-detail-layout{grid-template-columns:1fr !important;gap:24px !important;}
+  }
+  @media(max-width:480px){
+    .product-detail-layout{gap:16px !important;}
+    .section{padding:24px 14px !important;}
+  }
+  </style>
 <section class="section">
   <div class="container">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;" class="product-detail-layout">
       <!-- Image -->
       <div>
         <div style="aspect-ratio:3/4; background:var(--ivory-dark); position:relative; overflow:hidden;">
