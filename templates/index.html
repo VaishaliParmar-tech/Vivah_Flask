@@ -26,550 +26,386 @@
   color: var(--gold-light); text-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }
 
-/* ─── Hero ──────────────────────────────────────────────────── */
-.hero {
-  position: relative;
-  height: 100vh;
-  min-height: 600px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.hero-video-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(28,28,28,0.72) 0%,
-    rgba(139,26,26,0.45) 40%,
-    rgba(28,28,28,0.65) 100%
-  );
-  z-index: 1;
-}
-.hero-slides {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.hero-slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-.hero-slide.active { opacity: 1; }
-.hero-slide img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: white;
-  padding: 0 20px;
-  max-width: 800px;
-  width: 100%;
-}
-.hero-label {
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  margin-bottom: 20px;
-  padding: 6px 20px;
-  border: 1px solid rgba(201,168,76,0.4);
-}
-.hero-title {
-  font-family: var(--font-heading);
-  font-size: clamp(38px, 8vw, 90px);
-  line-height: 1.05;
-  letter-spacing: 6px;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 30px rgba(0,0,0,0.4);
-}
-.hero-title span { color: var(--gold-light); }
-.hero-subtitle {
-  font-family: var(--font-body);
-  font-size: clamp(14px, 2vw, 22px);
-  font-style: italic;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 40px;
-  letter-spacing: 1px;
-}
-.hero-ctas {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.hero-scroll {
-  position: absolute;
-  bottom: 30px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  color: var(--gold-light);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-sans);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  animation: bounce 2s infinite;
-}
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
-.hero-dots {
-  position: absolute;
-  bottom: 80px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
-  gap: 10px;
-}
-.hero-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.4);
-  cursor: pointer;
-  transition: var(--transition);
-}
-.hero-dot.active { background: var(--gold); transform: scale(1.3); }
+  /* ─── Hero ──────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 650px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-video-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(28,28,28,0.72) 0%,
+      rgba(139,26,26,0.45) 40%,
+      rgba(28,28,28,0.65) 100%
+    );
+    z-index: 1;
+  }
+  .hero-slides {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .hero-slide.active { opacity: 1; }
+  .hero-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+    max-width: 800px;
+  }
+  .hero-label {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    padding: 6px 20px;
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+  .hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(42px, 8vw, 90px);
+    line-height: 1.05;
+    letter-spacing: 6px;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 30px rgba(0,0,0,0.4);
+  }
+  .hero-title span { color: var(--gold-light); }
+  .hero-subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(16px, 2vw, 22px);
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+  }
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: var(--gold-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+  .hero-dots {
+    position: absolute;
+    bottom: 80px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    gap: 10px;
+  }
+  .hero-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .hero-dot.active { background: var(--gold); transform: scale(1.3); }
 
-/* ─── Feature Strip ──────────────────────────────────────────── */
-.feature-strip {
-  background: var(--crimson);
-  padding: 22px 40px;
-}
-.feature-strip-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: rgba(255,255,255,0.9);
-  justify-content: center;
-}
-.feature-item i {
-  font-size: 22px;
-  color: var(--gold-light);
-  flex-shrink: 0;
-}
-.feature-item-text .title {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  font-weight: 700;
-}
-.feature-item-text .sub {
-  font-size: 12px;
-  color: rgba(255,255,255,0.7);
-}
+  /* ─── Feature Strip ──────────────────────────────────────────── */
+  .feature-strip {
+    background: var(--crimson);
+    padding: 22px 40px;
+  }
+  .feature-strip-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: rgba(255,255,255,0.9);
+    justify-content: center;
+  }
+  .feature-item i {
+    font-size: 22px;
+    color: var(--gold-light);
+  }
+  .feature-item-text .title {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-weight: 700;
+  }
+  .feature-item-text .sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+  }
 
-/* ─── Brand Video Section ────────────────────────────────────── */
-.brand-video-section {
-  padding: 80px 40px;
-  background: var(--charcoal);
-  text-align: center;
-}
-.brand-video-wrap {
-  max-width: 900px;
-  margin: 40px auto 0;
-  position: relative;
-  border: 3px solid var(--gold-dark);
-  box-shadow: 0 0 60px rgba(201,168,76,0.2);
-}
-.brand-video-wrap video {
-  width: 100%;
-  display: block;
-}
+  /* ─── Brand Video Section ────────────────────────────────────── */
+  .brand-video-section {
+    padding: 80px 40px;
+    background: var(--charcoal);
+    text-align: center;
+  }
+  .brand-video-wrap {
+    max-width: 900px;
+    margin: 40px auto 0;
+    position: relative;
+    border: 3px solid var(--gold-dark);
+    box-shadow: 0 0 60px rgba(201,168,76,0.2);
+  }
+  .brand-video-wrap video {
+    width: 100%;
+    display: block;
+  }
 
-/* ─── Categories Grid ────────────────────────────────────────── */
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 240px);
-  gap: 12px;
-}
-.cat-card {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  background: var(--ivory-dark);
-  display: block;
-}
-.cat-card:first-child {
-  grid-row: span 2;
-}
-.cat-card img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-.cat-img-placeholder {
-  width: 100%; height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 56px;
-  color: var(--gold);
-}
-.cat-card:hover img { transform: scale(1.07); }
-.cat-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(28,28,28,0.8) 0%, transparent 60%);
-  display: flex;
-  align-items: flex-end;
-  padding: 24px;
-  transition: var(--transition);
-}
-.cat-card:hover .cat-overlay { background: linear-gradient(to top, rgba(139,26,26,0.8) 0%, transparent 60%); }
-.cat-name {
-  font-family: var(--font-heading);
-  font-size: 22px;
-  color: white;
-  letter-spacing: 2px;
-}
-.cat-count {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--gold-light);
-  text-transform: uppercase;
-  margin-top: 4px;
-}
+  /* ─── Categories Grid ────────────────────────────────────────── */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 240px);
+    gap: 12px;
+  }
+  .cat-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--ivory-dark);
+  }
+  .cat-card:first-child {
+    grid-row: span 2;
+  }
+  .cat-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .cat-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    color: var(--gold);
+  }
+  .cat-card:hover img { transform: scale(1.07); }
+  .cat-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,28,28,0.8) 0%, transparent 60%);
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+    transition: var(--transition);
+  }
+  .cat-card:hover .cat-overlay { background: linear-gradient(to top, rgba(139,26,26,0.8) 0%, transparent 60%); }
+  .cat-name {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    color: white;
+    letter-spacing: 2px;
+  }
+  .cat-count {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
 
-/* ─── Banner CTA ─────────────────────────────────────────────── */
-.banner-cta {
-  position: relative;
-  overflow: hidden;
-  min-height: 420px;
-  display: flex;
-  align-items: center;
-}
-.banner-cta-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--charcoal) 0%, var(--crimson) 50%, var(--charcoal) 100%);
-}
-.banner-cta-img {
-  position: absolute;
-  right: 0; top: 0; bottom: 0;
-  width: 50%;
-  object-fit: cover;
-  opacity: 0.3;
-}
-.banner-cta-content {
-  position: relative;
-  z-index: 1;
-  padding: 60px 80px;
-  color: white;
-  max-width: 600px;
-}
-.banner-cta-content .label {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  margin-bottom: 16px;
-}
-.banner-cta-content h2 {
-  font-family: var(--font-heading);
-  font-size: clamp(24px, 4vw, 48px);
-  letter-spacing: 3px;
-  line-height: 1.2;
-  margin-bottom: 20px;
-}
-.banner-cta-content p {
-  font-size: 16px;
-  font-style: italic;
-  color: rgba(255,255,255,0.8);
-  margin-bottom: 32px;
-}
+  /* ─── Banner CTA ─────────────────────────────────────────────── */
+  .banner-cta {
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+  }
+  .banner-cta-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--charcoal) 0%, var(--crimson) 50%, var(--charcoal) 100%);
+  }
+  .banner-cta-img {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 50%;
+    object-fit: cover;
+    opacity: 0.3;
+  }
+  .banner-cta-content {
+    position: relative;
+    z-index: 1;
+    padding: 60px 80px;
+    color: white;
+    max-width: 600px;
+  }
+  .banner-cta-content .label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+  .banner-cta-content h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(28px, 4vw, 48px);
+    letter-spacing: 3px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .banner-cta-content p {
+    font-size: 16px;
+    font-style: italic;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 32px;
+  }
 
-/* ─── Testimonials ───────────────────────────────────────────── */
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
-.testimonial-card {
-  background: white;
-  padding: 36px 30px;
-  position: relative;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-}
-.testimonial-card::before {
-  content: '"';
-  position: absolute;
-  top: 20px; left: 24px;
-  font-family: var(--font-heading);
-  font-size: 72px;
-  color: var(--gold);
-  opacity: 0.4;
-  line-height: 1;
-}
-.testimonial-text {
-  font-style: italic;
-  font-size: 15px;
-  color: var(--warm-gray);
-  line-height: 1.8;
-  margin-bottom: 24px;
-  padding-top: 30px;
-}
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.author-avatar {
-  width: 46px; height: 46px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--crimson), var(--gold));
-  display: flex; align-items: center; justify-content: center;
-  color: white;
-  font-family: var(--font-heading);
-  font-size: 18px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.author-name {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--charcoal);
-  letter-spacing: 1px;
-}
-.author-city {
-  font-size: 12px;
-  color: var(--warm-gray);
-}
-.stars { color: var(--gold); font-size: 12px; margin-bottom: 4px; }
+  /* ─── Testimonials ───────────────────────────────────────────── */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .testimonial-card {
+    background: white;
+    padding: 36px 30px;
+    position: relative;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+  .testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 20px; left: 24px;
+    font-family: var(--font-heading);
+    font-size: 72px;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+  }
+  .testimonial-text {
+    font-style: italic;
+    font-size: 15px;
+    color: var(--warm-gray);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    padding-top: 30px;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .author-avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--crimson), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .author-name {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: 1px;
+  }
+  .author-city {
+    font-size: 12px;
+    color: var(--warm-gray);
+  }
+  .stars { color: var(--gold); font-size: 12px; margin-bottom: 4px; }
 
-/* ─── Stats Bar ──────────────────────────────────────────────── */
-.stats-bar {
-  background: linear-gradient(135deg, var(--crimson), var(--charcoal));
-  padding: 60px 40px;
-  text-align: center;
-}
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-.stat-item .num {
-  font-family: var(--font-heading);
-  font-size: 52px;
-  color: var(--gold-light);
-  line-height: 1;
-  margin-bottom: 8px;
-}
-.stat-item .label {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-}
+  /* ─── Stats Bar ──────────────────────────────────────────────── */
+  .stats-bar {
+    background: linear-gradient(135deg, var(--crimson), var(--charcoal));
+    padding: 60px 40px;
+    text-align: center;
+    color: white;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .stat-item .num {
+    font-family: var(--font-heading);
+    font-size: 52px;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-item .label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
 
-/* ─── Spin Wheel ─────────────────────────────────────────────── */
-.spin-section-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 60px;
-  flex-wrap: wrap;
-}
-.spin-wheel-wrap {
-  position: relative;
-  flex-shrink: 0;
-}
-.spin-pointer {
-  position: absolute;
-  top: -18px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  text-align: center;
-}
-.spin-ring {
-  position: relative;
-  display: inline-block;
-}
-.spin-ring-glow {
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light),var(--gold-dark));
-  animation: spinGlow 3s linear infinite;
-  z-index: 0;
-}
-.spin-center-cap {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  width: 44px; height: 44px;
-  background: linear-gradient(135deg,var(--gold-dark),var(--gold));
-  border-radius: 50%;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 20px rgba(201,168,76,0.6);
-}
-.spin-result-box {
-  display: none;
-  margin-bottom: 24px;
-  padding: 20px;
-  background: rgba(201,168,76,0.08);
-  border: 1px solid rgba(201,168,76,0.4);
-}
-.spin-panel {
-  text-align: center;
-  min-width: 220px;
-}
-
-/* ═══════════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-═══════════════════════════════════════════════ */
-
-/* Tablet landscape */
-@media (max-width: 1024px) {
-  .feature-strip { padding: 18px 24px; }
-  .feature-strip-inner { gap: 14px; }
-  .brand-video-section { padding: 60px 24px; }
-  .stats-bar { padding: 50px 24px; }
-}
-
-/* Tablet portrait */
-@media (max-width: 900px) {
-  .hero-title { font-size: clamp(30px, 6vw, 54px); letter-spacing: 3px; }
-  .hero-subtitle { font-size: 14px; }
-  .hero-ctas { flex-direction: column; align-items: center; gap: 10px; }
-  .hero-ctas .btn { width: 220px; justify-content: center; }
-  .hero-dots { bottom: 60px; }
-
-  .feature-strip-inner { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-
-  .categories-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: unset; }
-  .categories-grid .cat-card:first-child { grid-row: span 1; }
-  .cat-name { font-size: 18px; }
-
-  .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
-  .testimonial-card { padding: 28px 24px; }
-
-  .banner-cta-content { padding: 40px 30px; max-width: 100%; }
-  .banner-cta-img { width: 40%; opacity: 0.2; }
-
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
-  .stat-item .num { font-size: 42px; }
-
-  .spin-section-inner { gap: 30px; }
-  .brand-video-section { padding: 50px 20px; }
-}
-
-/* Mobile — main breakpoint */
-@media (max-width: 600px) {
-  /* Hero */
-  .hero { min-height: 88vh; height: 88vh; }
-  .hero-content { padding: 0 16px; max-width: 100%; }
-  .hero-label { font-size: 9px; letter-spacing: 3px; padding: 5px 14px; margin-bottom: 14px; }
-  .hero-title { font-size: clamp(26px, 9vw, 40px); letter-spacing: 2px; margin-bottom: 12px; }
-  .hero-subtitle { font-size: 13px; max-width: 90%; margin: 0 auto 24px; }
-  .hero-ctas { gap: 10px; }
-  .hero-ctas .btn { width: 200px; padding: 12px 16px; font-size: 10px; }
-  .hero-dots { bottom: 50px; }
-  .hero-scroll { bottom: 16px; }
-
-  /* Feature strip */
-  .feature-strip { padding: 16px 14px; }
-  .feature-strip-inner { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .feature-item { gap: 8px; justify-content: flex-start; }
-  .feature-item i { font-size: 18px; }
-  .feature-item-text .title { font-size: 10px; letter-spacing: 1px; }
-  .feature-item-text .sub { font-size: 11px; }
-
-  /* Categories */
-  .categories-grid { grid-template-columns: 1fr 1fr; grid-template-rows: unset; gap: 8px; }
-  .categories-grid .cat-card:first-child { grid-column: span 2; height: 200px; }
-  .cat-overlay { padding: 16px; }
-  .cat-name { font-size: 16px; letter-spacing: 1px; }
-  .cat-count { font-size: 10px; }
-
-  /* Banner CTA */
-  .banner-cta { min-height: auto; }
-  .banner-cta-content { padding: 36px 20px; }
-  .banner-cta-content h2 { font-size: 24px; letter-spacing: 1px; }
-  .banner-cta-content p { font-size: 14px; margin-bottom: 20px; }
-  .banner-cta-img { display: none; }
-
-  /* Brand video */
-  .brand-video-section { padding: 40px 14px; }
-  .brand-video-wrap { margin-top: 24px; }
-
-  /* Stats */
-  .stats-bar { padding: 40px 20px; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .stat-item .num { font-size: 36px; }
-  .stat-item .label { font-size: 10px; letter-spacing: 2px; }
-
-  /* Testimonials */
-  .testimonials-grid { gap: 14px; }
-  .testimonial-card { padding: 22px 16px; }
-  .testimonial-text { font-size: 14px; }
-
-  /* Spin wheel */
-  .spin-section-inner { flex-direction: column; gap: 24px; }
-  .spin-panel { min-width: unset; width: 100%; }
-  #wheelCanvas { width: 240px !important; height: 240px !important; }
-  .spin-ring-glow { inset: -6px; }
-}
-
-/* Small phones */
-@media (max-width: 400px) {
-  .hero-title { font-size: 26px; letter-spacing: 1px; }
-  .hero-ctas .btn { width: 180px; }
-
-  .feature-strip-inner { grid-template-columns: 1fr; }
-  .feature-item { justify-content: center; }
-
-  .categories-grid { grid-template-columns: 1fr; }
-  .categories-grid .cat-card:first-child { grid-column: span 1; height: 180px; }
-
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .stat-item .num { font-size: 30px; }
-
-  .banner-cta-content p { display: none; }
-
-  #wheelCanvas { width: 200px !important; height: 200px !important; }
-  .spin-center-cap { width: 36px; height: 36px; }
-}
-
-@keyframes spinGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  @media (max-width: 900px) {
+    .feature-strip-inner { grid-template-columns: repeat(2, 1fr); }
+    .categories-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: unset; }
+    .categories-grid .cat-card:first-child { grid-row: span 1; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .banner-cta-content { padding: 40px 20px; }
+  }
+  @media (max-width: 600px) {
+    .feature-strip-inner { grid-template-columns: 1fr; }
+    .categories-grid { grid-template-columns: 1fr; }
+  }
 </style>
 {% endblock %}
 
@@ -586,11 +422,13 @@
 
 <!-- ─── HERO ──────────────────────────────────────────────────────── -->
 <section class="hero">
+  <!-- Video Background -->
   <video class="hero-video-bg" autoplay muted loop playsinline>
     <source src="{{ url_for('static', filename='videos/hero_video1.mp4') }}" type="video/mp4" />
     <source src="{{ url_for('static', filename='videos/hero_video2.mp4') }}" type="video/mp4" />
   </video>
 
+  <!-- Fallback image slides -->
   <div class="hero-slides" id="heroSlides">
     <div class="hero-slide active">
       <img src="{{ url_for('static', filename='images/hero/hero_banner1.jpg') }}" alt="Vivah Sarees" />
@@ -692,7 +530,7 @@
         </div>
       </a>
       <a href="{{ url_for('collections') }}" class="cat-card">
-        <img src="{{ url_for('static', filename='images/sarees/Silk.jpeg') }}" alt="Silk Sarees" />
+        <img src="{{ url_for('static', filename='images/sarees/Silk.jpeg') }}" alt="Silk Sarees" onerror="this.style.display='none'" />
         <div class="cat-img-placeholder" style="position:absolute;inset:0;">🥻</div>
         <div class="cat-overlay">
           <div>
@@ -781,6 +619,7 @@
         {% endfor %}
       </div>
     {% else %}
+      <!-- Empty product grid placeholder - add 200+ products via Admin panel -->
       <div class="products-grid">
         {% for i in range(8) %}
         <div class="product-card">
@@ -811,7 +650,7 @@
 <!-- ─── BRAND VIDEO ────────────────────────────────────────────────── -->
 <section class="brand-video-section">
   <div class="section-label" style="color:var(--gold-light);">The Vivah Story</div>
-  <h2 class="section-title" style="color:white; font-family:var(--font-heading); font-size:clamp(24px,4vw,48px); letter-spacing:3px;">Crafted with Love &amp; Heritage</h2>
+  <h2 class="section-title" style="color:white; font-family:var(--font-heading); font-size:clamp(28px,4vw,48px); letter-spacing:3px;">Crafted with Love &amp; Heritage</h2>
   <div class="section-divider"></div>
   <div class="brand-video-wrap">
     <video controls poster="{{ url_for('static', filename='images/hero/hero_banner1.jpg') }}">
@@ -862,6 +701,7 @@
         {% endfor %}
       </div>
     {% else %}
+      <!-- Wedding placeholders -->
       <div class="products-grid">
         {% for i in range(6) %}
         <div class="product-card">
@@ -889,14 +729,14 @@
 </section>
 
 <!-- ─── OFFERS BANNER ────────────────────────────────────────────── -->
-<section style="background:linear-gradient(135deg,var(--charcoal) 0%,var(--crimson) 50%,var(--charcoal) 100%);padding:60px 20px;">
+<section style="background:linear-gradient(135deg,var(--charcoal) 0%,var(--crimson) 50%,var(--charcoal) 100%);padding:60px 40px;">
   <div class="container">
     <div style="text-align:center;margin-bottom:40px;">
       <div class="section-label" style="color:var(--gold-light)">✦ Exclusive Offers</div>
-      <h2 style="font-family:var(--font-heading);font-size:clamp(22px,4vw,46px);color:white;letter-spacing:3px">Save Big on Every Order</h2>
+      <h2 style="font-family:var(--font-heading);font-size:clamp(26px,4vw,46px);color:white;letter-spacing:3px">Save Big on Every Order</h2>
       <div class="section-divider"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:1000px;margin:0 auto 40px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1000px;margin:0 auto 40px;">
       {% for coupon in active_coupons[:4] %}
       <div style="background:rgba(255,255,255,0.08);border:1px dashed rgba(201,168,76,0.5);padding:22px;text-align:center;border-radius:3px;transition:all 0.3s" onmouseover="this.style.background='rgba(255,255,255,0.14)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
         <div style="font-family:var(--font-heading);font-size:26px;color:var(--gold-light);letter-spacing:4px;margin-bottom:6px">
@@ -1054,6 +894,7 @@
 <!-- 🎡 SPIN THE WHEEL                          -->
 <!-- ══════════════════════════════════════════ -->
 <section class="section" style="background:linear-gradient(135deg,#1C0A0A 0%,#2d0f0f 50%,#1C0A0A 100%);overflow:hidden;position:relative">
+  <!-- bg glow -->
   <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none"></div>
   <div class="container" style="max-width:960px;position:relative;z-index:1">
     <div class="section-header">
@@ -1063,24 +904,27 @@
       <p class="section-desc" style="color:rgba(255,255,255,0.6)">Spin the wheel for a surprise discount — one spin per visit!</p>
     </div>
 
-    <div class="spin-section-inner">
+    <div style="display:flex;align-items:center;justify-content:center;gap:60px;flex-wrap:wrap">
       <!-- Wheel -->
-      <div class="spin-wheel-wrap">
-        <div class="spin-pointer">
+      <div style="position:relative;flex-shrink:0">
+        <!-- Pointer -->
+        <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);z-index:10;text-align:center">
           <div style="width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:28px solid var(--gold);filter:drop-shadow(0 0 8px rgba(201,168,76,0.8));margin:0 auto"></div>
         </div>
-        <div class="spin-ring">
-          <div class="spin-ring-glow"></div>
+        <div style="position:relative;display:inline-block">
+          <!-- Outer ring glow -->
+          <div style="position:absolute;inset:-8px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light),var(--gold-dark));animation:spinGlow 3s linear infinite;z-index:0"></div>
           <canvas id="wheelCanvas" width="280" height="280" style="position:relative;z-index:1;display:block;border-radius:50%"></canvas>
-          <div class="spin-center-cap">
+          <!-- Center cap -->
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border-radius:50%;z-index:10;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(201,168,76,0.6)">
             <i class="fas fa-gem" style="color:var(--charcoal);font-size:16px"></i>
           </div>
         </div>
       </div>
 
       <!-- Right panel -->
-      <div class="spin-panel">
-        <div id="spinResult" class="spin-result-box">
+      <div style="text-align:center;min-width:220px">
+        <div id="spinResult" style="display:none;margin-bottom:24px;padding:20px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.4)">
           <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">🎉 You Won!</div>
           <div id="spinResultLabel" style="font-family:'Cinzel',serif;font-size:28px;color:var(--gold-light);font-weight:700;letter-spacing:2px"></div>
           <div id="spinCouponCode" style="font-family:var(--font-sans);font-size:13px;letter-spacing:3px;color:rgba(255,255,255,0.7);margin-top:8px;padding:8px;background:rgba(0,0,0,0.3);border:1px dashed rgba(201,168,76,0.4)"></div>
@@ -1102,6 +946,10 @@
   </div>
 </section>
 
+<style>
+@keyframes spinGlow{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
 {% endblock %}
 
 {% block extra_js %}
@@ -1113,6 +961,7 @@
     setTimeout(() => s.remove(), 900);
     sessionStorage.setItem('splashShown','1');
   }
+  // Auto-dismiss after video ends or 8 seconds
   window.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('splashShown')) {
       const s = document.getElementById('splashScreen');
@@ -1122,6 +971,7 @@
     const v = document.getElementById('splashVideo');
     if (v) {
       v.addEventListener('ended', dismissSplash);
+      // setTimeout(dismissSplash, 8000);
     }
   });
 
@@ -1157,24 +1007,16 @@ const WHEEL_SEGMENTS = [
 const canvas = document.getElementById('wheelCanvas');
 if (canvas) {
   const ctx = canvas.getContext('2d');
-  let cx = canvas.width / 2, cy = canvas.height / 2, r = cx - 4;
+  const cx = canvas.width / 2, cy = canvas.height / 2, r = cx - 4;
   const arc = (2 * Math.PI) / WHEEL_SEGMENTS.length;
   let currentAngle = 0, spinning = false, hasSpun = sessionStorage.getItem('vivahSpun');
-
-  // Resize canvas on mobile
-  function resizeCanvas() {
-    const maxW = Math.min(280, window.innerWidth - 60);
-    canvas.width = maxW;
-    canvas.height = maxW;
-    cx = maxW / 2; cy = maxW / 2; r = cx - 4;
-    drawWheel(currentAngle);
-  }
 
   function drawWheel(angle) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     WHEEL_SEGMENTS.forEach((seg, i) => {
       const start = angle + i * arc;
       const end = start + arc;
+      // Segment
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.arc(cx, cy, r, start, end);
@@ -1184,20 +1026,20 @@ if (canvas) {
       ctx.strokeStyle = 'rgba(201,168,76,0.5)';
       ctx.lineWidth = 1.5;
       ctx.stroke();
+      // Text
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(start + arc / 2);
       ctx.textAlign = 'right';
       ctx.fillStyle = seg.textColor;
-      ctx.font = `bold ${Math.max(9, Math.floor(cx * 0.09))}px Lato, sans-serif`;
-      ctx.fillText(seg.label, r - 10, 4);
+      ctx.font = 'bold 11px Lato, sans-serif';
+      ctx.letterSpacing = '1px';
+      ctx.fillText(seg.label, r - 12, 4);
       ctx.restore();
     });
   }
 
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
+  drawWheel(currentAngle);
   if (hasSpun) {
     document.getElementById('spinBtn').disabled = true;
     document.getElementById('spinBtn').style.opacity = '0.4';
@@ -1212,7 +1054,7 @@ if (canvas) {
     document.getElementById('spinResult').style.display = 'none';
 
     const winIndex = Math.floor(Math.random() * WHEEL_SEGMENTS.length);
-    const extraSpins = 5 + Math.random() * 3;
+    const extraSpins = 5 + Math.random() * 3; // 5-8 full rotations
     const targetAngle = currentAngle + (extraSpins * 2 * Math.PI) + (2 * Math.PI - (winIndex * arc + arc / 2));
     const duration = 4000;
     const startTime = performance.now();
@@ -1221,6 +1063,7 @@ if (canvas) {
     function animate(now) {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       currentAngle = startAngle + (targetAngle - startAngle) * eased;
       drawWheel(currentAngle);
@@ -1243,6 +1086,7 @@ if (canvas) {
     document.getElementById('spinResult').style.display = 'block';
     document.getElementById('spinStatus').textContent = '🎉 Apply code at checkout!';
     document.getElementById('spinBtn').style.opacity = '0.4';
+    // Flash celebration
     const c = document.getElementById('flashContainer');
     const m = document.createElement('div');
     m.className = 'flash-msg success';
