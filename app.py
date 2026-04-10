@@ -730,4 +730,4 @@ if __name__ == '__main__':
     print("  VIVAH SAREES — http://127.0.0.1:5000")
     print(f"  Admin: /admin/login  |  {ADMIN_USERNAME} / {ADMIN_PASSWORD}")
     print("="*55 + "\n")
-    app.run(debug=True)
+    app.run(host="0.0.0.0",port=int(os.environ.get("PORT",10000)))
