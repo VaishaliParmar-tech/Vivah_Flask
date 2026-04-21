@@ -128,7 +128,6 @@
         {% endfor %}
       </div>
     {% else %}
-      <!-- Wedding product placeholders -->
       <div class="products-grid">
         {% for i in range(12) %}
         <div class="product-card">
@@ -158,15 +157,15 @@
 
 
 <!-- ══════════════════════════════════════════ -->
-<!-- 🗓️ SAREE OCCASION PLANNER                  -->
+<!-- SAREE OCCASION PLANNER                     -->
 <!-- ══════════════════════════════════════════ -->
 <section class="section section-alt" id="occasion-planner">
-  <div class="container" style="max-width:1100px">
+  <div class="container" style="max-width:800px">
     <div class="section-header">
       <div class="section-label">✦ Wedding Planner</div>
       <h2 class="section-title">Saree Occasion Planner</h2>
       <div class="section-divider"></div>
-      <p class="section-desc">Enter your total budget — get 3 curated saree packages, one saree per function</p>
+      <p class="section-desc">Enter your total budget — bridal saree gets 40%, the rest is split equally across other functions</p>
     </div>
 
     <div style="background:white;box-shadow:var(--shadow);overflow:hidden">
@@ -174,6 +173,7 @@
         <i class="fas fa-calendar-heart" style="color:var(--gold-light);font-size:20px"></i>
         <div style="font-family:var(--font-sans);font-size:11px;letter-spacing:3px;color:var(--gold-light);text-transform:uppercase">Plan Your Complete Wedding Wardrobe</div>
       </div>
+
       <div style="padding:32px 28px">
         <div style="margin-bottom:24px">
           <div class="form-group">
@@ -181,41 +181,46 @@
             <input type="number" id="planBudget" placeholder="e.g. 50000" min="5000" step="1000" style="font-size:16px"/>
           </div>
         </div>
+
         <div style="margin-bottom:24px">
           <label style="display:block;font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:12px">Select Functions to Include</label>
           <div style="display:flex;flex-wrap:wrap;gap:10px" id="functionPicker">
-            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+            <label class="fn-chip" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s">
               <input type="checkbox" value="haldi" checked style="accent-color:var(--crimson)"> 🌼 Haldi
             </label>
-            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+            <label class="fn-chip" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s">
               <input type="checkbox" value="mehendi" checked style="accent-color:var(--crimson)"> 🌿 Mehendi
             </label>
-            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+            <label class="fn-chip" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s">
               <input type="checkbox" value="sangeet" checked style="accent-color:var(--crimson)"> 🎶 Sangeet
             </label>
-            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+            <label class="fn-chip" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s">
               <input type="checkbox" value="wedding" checked style="accent-color:var(--crimson)"> 👰 Wedding
             </label>
-            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s" class="fn-chip">
+            <label class="fn-chip" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid rgba(201,168,76,0.3);cursor:pointer;font-family:var(--font-sans);font-size:12px;letter-spacing:1px;transition:all 0.2s">
               <input type="checkbox" value="reception" checked style="accent-color:var(--crimson)"> 💫 Reception
             </label>
           </div>
         </div>
+
+        <!-- Live budget preview bars -->
+        <div id="budgetPreview" style="display:none;margin-bottom:24px;padding:16px 18px;background:var(--ivory);border-left:3px solid var(--gold)">
+          <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:12px">Budget Split Preview</div>
+          <div id="budgetPreviewItems" style="display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+
         <button onclick="buildOccasionPlan()" style="width:100%;padding:15px;background:linear-gradient(135deg,var(--crimson),#6b1212);color:white;font-family:var(--font-sans);font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-          <i class="fas fa-wand-magic-sparkles"></i> Show Me My Saree Packages
+          <i class="fas fa-wand-magic-sparkles"></i> Show Me My Saree Package
         </button>
       </div>
 
       <!-- Results -->
       <div id="planResults" style="display:none;padding:28px;background:var(--ivory);border-top:2px solid var(--gold)">
         <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px;display:flex;align-items:center;gap:8px">
-          <i class="fas fa-gem" style="color:var(--gold)"></i> Your 3 Wedding Saree Packages
+          <i class="fas fa-gem" style="color:var(--gold)"></i> Your Personalised Wedding Saree Package
         </div>
         <p id="planBudgetDisplay" style="font-size:14px;color:var(--charcoal);margin-bottom:20px"></p>
-
-        <!-- 3 Package columns -->
-        <div id="packGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px"></div>
-
+        <div id="packGrid"></div>
         <div style="margin-top:24px;text-align:center;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
           <a href="{{ url_for('all_products') }}" class="btn btn-crimson"><i class="fas fa-shopping-bag"></i> Shop All Sarees</a>
           <a href="{{ url_for('customize') }}" class="btn btn-outline"><i class="fas fa-magic"></i> Custom Bridal Order</a>
@@ -228,7 +233,7 @@
 
 {% block extra_js %}
 <script>
-// ── SAFE: Use wedding_json if passed, else fall back to products, else empty array ──
+// ── Safe product load ──
 var WEDDING_PRODUCTS = [];
 try {
   {% if wedding_json is defined and wedding_json %}
@@ -254,23 +259,12 @@ try {
   WEDDING_PRODUCTS = [];
 }
 
-// Chip highlight
-document.querySelectorAll('.fn-chip').forEach(function(chip) {
-  var update = function() {
-    var checked = chip.querySelector('input').checked;
-    chip.style.borderColor = checked ? 'var(--crimson)' : 'rgba(201,168,76,0.3)';
-    chip.style.background  = checked ? 'rgba(139,26,26,0.05)' : '';
-  };
-  chip.querySelector('input').addEventListener('change', update);
-  update();
-});
-
 var FN_META = {
-  haldi:    { emoji:'🌼', name:'Haldi',    label:'Haldi Saree',    fabric:'Cotton / Chiffon / Georgette' },
-  mehendi:  { emoji:'🌿', name:'Mehendi',  label:'Mehendi Saree',  fabric:'Georgette / Crepe / Chiffon' },
-  sangeet:  { emoji:'🎶', name:'Sangeet',  label:'Sangeet Saree',  fabric:'Net / Organza / Sequin' },
-  wedding:  { emoji:'👰', name:'Wedding',  label:'Bridal Saree',   fabric:'Silk / Banarasi / Kanjivaram' },
-  reception:{ emoji:'💫', name:'Reception',label:'Reception Saree',fabric:'Velvet / Tissue / Net' },
+  haldi:    { emoji:'🌼', name:'Haldi',    fabric:'Cotton / Chiffon / Georgette' },
+  mehendi:  { emoji:'🌿', name:'Mehendi',  fabric:'Georgette / Crepe / Chiffon' },
+  sangeet:  { emoji:'🎶', name:'Sangeet',  fabric:'Net / Organza / Sequin' },
+  wedding:  { emoji:'👰', name:'Wedding',  fabric:'Silk / Banarasi / Kanjivaram' },
+  reception:{ emoji:'💫', name:'Reception',fabric:'Velvet / Tissue / Net' }
 };
 
 var FN_KEYWORDS = {
@@ -278,56 +272,92 @@ var FN_KEYWORDS = {
   mehendi:  ['georgette','crepe','chiffon','mehendi','green','mahendi'],
   sangeet:  ['net','organza','sangeet','party','sequin','shimmer'],
   wedding:  ['silk','banarasi','kanjivaram','patola','gharchola','panetar','bridal','bride','wedding'],
-  reception:['velvet','tissue','net','organza','reception','evening'],
+  reception:['velvet','tissue','net','organza','reception','evening']
 };
 
-var PACKS = [
-  {
-    id:1, title:'Package 1', subtitle:'Bridal Splurge 👰',
-    desc:'Maximum budget on the wedding day saree.',
-    color:'#8B1A1A', bg:'rgba(139,26,26,0.04)', border:'rgba(139,26,26,0.3)',
-    weights:{ haldi:0.06, mehendi:0.07, sangeet:0.13, wedding:0.54, reception:0.20 },
-  },
-  {
-    id:2, title:'Package 2', subtitle:'Balanced Luxury ✨',
-    desc:'Beautiful look at every function — nothing underdressed.',
-    color:'#7a5c1e', bg:'rgba(201,168,76,0.05)', border:'rgba(201,168,76,0.4)',
-    weights:{ haldi:0.11, mehendi:0.13, sangeet:0.20, wedding:0.40, reception:0.16 },
-  },
-  {
-    id:3, title:'Package 3', subtitle:'Reception Glam 💫',
-    desc:'Make your biggest statement at the reception.',
-    color:'#1a3a5c', bg:'rgba(26,58,92,0.04)', border:'rgba(26,58,92,0.3)',
-    weights:{ haldi:0.07, mehendi:0.09, sangeet:0.15, wedding:0.38, reception:0.31 },
-  },
-];
+// ── Chip highlight ──
+document.querySelectorAll('.fn-chip').forEach(function(chip) {
+  var cb = chip.querySelector('input');
+  var refresh = function() {
+    chip.style.borderColor = cb.checked ? 'var(--crimson)' : 'rgba(201,168,76,0.3)';
+    chip.style.background  = cb.checked ? 'rgba(139,26,26,0.05)' : '';
+    updateBudgetPreview();
+  };
+  cb.addEventListener('change', refresh);
+  refresh();
+});
+document.getElementById('planBudget').addEventListener('input', updateBudgetPreview);
 
-function buildSortedPool(fn) {
+// ── Budget allocation: 40% wedding, equal split for rest ──
+function computeAllocs(budget, selected) {
+  var allocs = {};
+  var hasWedding = selected.indexOf('wedding') !== -1;
+  var weddingAmt = hasWedding ? Math.round(budget * 0.40 / 100) * 100 : 0;
+  var remaining  = budget - weddingAmt;
+  var others     = selected.filter(function(fn){ return fn !== 'wedding'; });
+  var perOther   = others.length ? Math.round(remaining / others.length / 100) * 100 : 0;
+  selected.forEach(function(fn){
+    allocs[fn] = fn === 'wedding' ? weddingAmt : perOther;
+  });
+  return allocs;
+}
+
+// ── Live bar preview ──
+function updateBudgetPreview() {
+  var budget   = parseInt(document.getElementById('planBudget').value);
+  var selected = Array.from(document.querySelectorAll('#functionPicker input:checked')).map(function(i){ return i.value; });
+  var preview  = document.getElementById('budgetPreview');
+  if (!budget || budget < 5000 || !selected.length) { preview.style.display = 'none'; return; }
+
+  var allocs = computeAllocs(budget, selected);
+  preview.style.display = 'block';
+
+  document.getElementById('budgetPreviewItems').innerHTML = selected.map(function(fn) {
+    var pct = Math.round((allocs[fn] / budget) * 100);
+    var isW = fn === 'wedding';
+    return [
+      '<div style="display:flex;align-items:center;gap:10px">',
+        '<span style="width:86px;font-family:var(--font-sans);font-size:11px;color:var(--charcoal);flex-shrink:0">' + FN_META[fn].emoji + ' ' + FN_META[fn].name + '</span>',
+        '<div style="flex:1;height:7px;background:#e8e0d5;border-radius:4px;overflow:hidden">',
+          '<div style="width:' + pct + '%;height:100%;background:' + (isW ? 'var(--crimson)' : 'var(--gold)') + ';border-radius:4px;transition:width 0.4s"></div>',
+        '</div>',
+        '<span style="font-family:var(--font-sans);font-size:11px;font-weight:700;color:' + (isW ? 'var(--crimson)' : 'var(--charcoal)') + ';width:120px;text-align:right;flex-shrink:0">',
+          '₹' + allocs[fn].toLocaleString('en-IN') + ' (' + pct + '%)',
+        '</span>',
+      '</div>'
+    ].join('');
+  }).join('');
+}
+
+// ── KEY FIX: Find product CLOSEST to allocated budget (not cheapest) ──
+// Priority: 1) keyword match score  2) closest price to alloc  3) no hard upper cap
+function findBestProduct(fn, alloc) {
+  if (!WEDDING_PRODUCTS.length) return null;
   var keywords = FN_KEYWORDS[fn] || [];
-  return WEDDING_PRODUCTS.map(function(p) {
-    var text = ((p.name||'') + ' ' + (p.fabric||'') + ' ' + (p.color||'') + ' ' + (p.occasion||'') + ' ' + (p.category_name||'')).toLowerCase();
+
+  // Score all products by keyword relevance
+  var scored = WEDDING_PRODUCTS.map(function(p) {
+    var text = ((p.name||'')+' '+(p.fabric||'')+' '+(p.color||'')+' '+(p.occasion||'')+' '+(p.category_name||'')).toLowerCase();
     var score = keywords.filter(function(k){ return text.indexOf(k) !== -1; }).length;
     return Object.assign({}, p, { score: score });
-  }).sort(function(a, b) {
-    return (b.score - a.score) || (b.price - a.price);
   });
+
+  // Group by top score so we pick the best-matched ones first
+  var maxScore = scored.reduce(function(m, p){ return Math.max(m, p.score); }, 0);
+  // Allow top scorers and those within 1 point below top
+  var topMatches = scored.filter(function(p){ return p.score >= Math.max(0, maxScore - 1); });
+  var pool = topMatches.length ? topMatches : scored;
+
+  // Among keyword matches, pick the one with price CLOSEST to allocated budget
+  // This ensures estimated total ≈ user's entered budget
+  pool.sort(function(a, b) {
+    return Math.abs(a.price - alloc) - Math.abs(b.price - alloc);
+  });
+
+  return pool[0] || null;
 }
 
-function findProduct(sortedPool, alloc, packIdx) {
-  if (!sortedPool || !sortedPool.length) return null;
-  var affordable = sortedPool.filter(function(p){ return p.price <= alloc * 1.3; });
-  if (!affordable.length) affordable = sortedPool;
-  var sorted;
-  if (packIdx === 0) {
-    sorted = affordable.slice().sort(function(a,b){ return b.price - a.price; });
-  } else if (packIdx === 1) {
-    sorted = affordable.slice().sort(function(a,b){ return Math.abs(a.price - alloc) - Math.abs(b.price - alloc); });
-  } else {
-    sorted = affordable.slice().sort(function(a,b){ return a.price - b.price; });
-  }
-  return sorted[0] || null;
-}
-
+// ── Build single package ──
 function buildOccasionPlan() {
   var budget = parseInt(document.getElementById('planBudget').value);
   if (!budget || budget < 5000) { alert('Please enter a budget of at least ₹5,000'); return; }
@@ -336,93 +366,100 @@ function buildOccasionPlan() {
   if (!selected.length) { alert('Please select at least one function'); return; }
 
   document.getElementById('planResults').style.display = 'block';
-  document.getElementById('planResults').scrollIntoView({ behavior:'smooth' });
+  document.getElementById('planResults').scrollIntoView({ behavior: 'smooth' });
 
-  if (!WEDDING_PRODUCTS || WEDDING_PRODUCTS.length === 0) {
+  if (!WEDDING_PRODUCTS.length) {
     document.getElementById('packGrid').innerHTML = [
-      '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--warm-gray)">',
-      '<i class="fas fa-box-open" style="font-size:48px;color:var(--gold);display:block;margin-bottom:16px"></i>',
-      '<h3 style="font-family:var(--font-heading);font-size:22px;color:var(--charcoal);margin-bottom:10px">No Wedding Sarees Added Yet</h3>',
-      '<p style="margin-bottom:20px">Add products in the Admin Panel and mark them as <strong>💍 Wedding Collection</strong> to see package suggestions here.</p>',
-      '<a href="{{ url_for('admin') }}" class="btn btn-crimson"><i class="fas fa-plus"></i> Add Wedding Products</a>',
+      '<div style="text-align:center;padding:40px;color:var(--warm-gray)">',
+        '<i class="fas fa-box-open" style="font-size:48px;color:var(--gold);display:block;margin-bottom:16px"></i>',
+        '<h3 style="font-family:var(--font-heading);font-size:22px;color:var(--charcoal);margin-bottom:10px">No Wedding Sarees Added Yet</h3>',
+        '<p style="margin-bottom:20px">Add products via the Admin Panel and mark them as Wedding Collection to see suggestions.</p>',
+        '<a href="{{ url_for("admin") }}" class="btn btn-crimson"><i class="fas fa-plus"></i> Add Wedding Products</a>',
       '</div>'
     ].join('');
     document.getElementById('planBudgetDisplay').textContent = '';
     return;
   }
 
+  var allocs     = computeAllocs(budget, selected);
+  var totalSpend = 0;
+
+  // Build items — each function picks product closest to its allocated budget
+  var items = selected.map(function(fn) {
+    var product = findBestProduct(fn, allocs[fn]);
+    // For display: show allocated amount as the "price" if no product found
+    totalSpend += product ? product.price : allocs[fn];
+    return { fn: fn, meta: FN_META[fn], alloc: allocs[fn], product: product };
+  });
+
   document.getElementById('planBudgetDisplay').innerHTML =
-    'Budget <strong>₹' + budget.toLocaleString('en-IN') + '</strong> split across <strong>' + selected.length + '</strong> function' + (selected.length > 1 ? 's' : '') + ' — 3 different packages:';
+    'Budget <strong>₹' + budget.toLocaleString('en-IN') + '</strong> across <strong>' + selected.length + '</strong> function' +
+    (selected.length > 1 ? 's' : '') + ' — bridal saree gets <strong>40%</strong>, rest split equally.';
 
-  var pools = {};
-  selected.forEach(function(fn){ pools[fn] = buildSortedPool(fn); });
+  // ── Render items ──
+  var itemsHtml = items.map(function(item) {
+    var isW    = item.fn === 'wedding';
+    var accent = isW ? '#8B1A1A' : '#7a5c1e';
+    var pct    = Math.round((item.alloc / budget) * 100);
 
-  var packGrid = document.getElementById('packGrid');
-
-  packGrid.innerHTML = PACKS.map(function(pack, packIdx) {
-    var totalW = selected.reduce(function(s, fn){ return s + (pack.weights[fn] || 0.1); }, 0);
-
-    var items = selected.map(function(fn) {
-      var w = pack.weights[fn] || 0.1;
-      var alloc = Math.round((w / totalW) * budget / 100) * 100;
-      var product = findProduct(pools[fn], alloc, packIdx);
-      return { fn: fn, meta: FN_META[fn], alloc: alloc, product: product };
-    });
-
-    var packTotal = items.reduce(function(s, i){ return s + (i.product ? i.product.price : i.alloc); }, 0);
-
-    var itemsHtml = items.map(function(item) {
-      if (item.product) {
-        return [
-          '<div style="background:white;display:flex;gap:0;border:1px solid rgba(0,0,0,0.07);overflow:hidden">',
-            '<div style="width:80px;flex-shrink:0;position:relative">',
-              '<img src="/static/images/products/' + item.product.image + '"',
-                   'alt="' + item.product.name + '"',
-                   'style="width:100%;height:100%;object-fit:cover;display:block;min-height:90px"',
-                   'onerror="this.parentElement.style.background=\'var(--ivory)\';this.style.display=\'none\'"/>',
-              '<div style="position:absolute;top:0;left:0;background:' + pack.color + ';color:white;font-size:11px;padding:2px 6px">' + item.meta.emoji + '</div>',
+    if (item.product) {
+      return [
+        '<div style="background:white;display:flex;border:1px solid ' + (isW ? 'rgba(139,26,26,0.3)' : 'rgba(0,0,0,0.08)') + ';overflow:hidden;position:relative' + (isW ? ';box-shadow:0 2px 14px rgba(139,26,26,0.1)' : '') + '">',
+          isW ? '<div style="position:absolute;top:0;right:0;background:var(--crimson);color:white;font-family:var(--font-sans);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;z-index:1">★ Star of the Day</div>' : '',
+          '<div style="width:90px;flex-shrink:0;position:relative">',
+            '<img src="/static/images/products/' + item.product.image + '" alt="' + item.product.name + '" style="width:100%;height:100%;object-fit:cover;display:block;min-height:105px" onerror="this.parentElement.style.background=\'var(--ivory)\';this.style.display=\'none\'"/>',
+            '<div style="position:absolute;top:0;left:0;background:' + accent + ';color:white;font-size:13px;padding:3px 7px">' + item.meta.emoji + '</div>',
+          '</div>',
+          '<div style="padding:12px 16px;flex:1;min-width:0">',
+            '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-wrap:wrap;gap:4px">',
+              '<div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:' + accent + '">' + item.meta.name + '</div>',
+              '<span style="font-family:var(--font-sans);font-size:9px;color:var(--warm-gray);background:var(--ivory);padding:2px 8px">' + pct + '% of budget</span>',
             '</div>',
-            '<div style="padding:10px 12px;flex:1;min-width:0">',
-              '<div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:' + pack.color + ';margin-bottom:3px">' + item.meta.name + '</div>',
-              '<div style="font-family:var(--font-heading);font-size:14px;color:var(--charcoal);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + item.product.name + '</div>',
-              '<div style="font-family:var(--font-sans);font-size:11px;color:var(--warm-gray);margin-bottom:8px">' + (item.product.fabric || item.meta.fabric) + '</div>',
-              '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap">',
-                '<span style="font-size:16px;color:' + pack.color + ';font-weight:700">₹' + item.product.price.toLocaleString('en-IN') + '</span>',
-                '<a href="/product/' + item.product.id + '" style="font-family:var(--font-sans);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:' + pack.color + ';border:1px solid ' + pack.color + ';padding:3px 9px;text-decoration:none">View →</a>',
+            '<div style="font-family:var(--font-heading);font-size:15px;color:var(--charcoal);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + item.product.name + '</div>',
+            '<div style="font-family:var(--font-sans);font-size:11px;color:var(--warm-gray);margin-bottom:10px">' + (item.product.fabric || item.meta.fabric) + '</div>',
+            '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">',
+              '<div>',
+                '<span style="font-size:17px;color:' + accent + ';font-weight:700">₹' + item.product.price.toLocaleString('en-IN') + '</span>',
+                '<span style="font-size:11px;color:var(--warm-gray);margin-left:7px">budget ₹' + item.alloc.toLocaleString('en-IN') + '</span>',
               '</div>',
+              '<a href="/product/' + item.product.id + '" style="font-family:var(--font-sans);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:' + accent + ';border:1px solid ' + accent + ';padding:4px 12px;text-decoration:none">View →</a>',
             '</div>',
-          '</div>'
-        ].join('');
-      } else {
-        return [
-          '<div style="background:white;padding:14px;border:1px dashed rgba(0,0,0,0.1);text-align:center">',
-            '<div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:' + pack.color + ';margin-bottom:4px">' + item.meta.emoji + ' ' + item.meta.name + '</div>',
-            '<div style="font-size:12px;color:var(--warm-gray)">Budget: ₹' + item.alloc.toLocaleString('en-IN') + '</div>',
-            '<a href="/all-products?max_price=' + item.alloc + '" style="font-size:11px;color:' + pack.color + ';margin-top:4px;display:block">Browse options →</a>',
-          '</div>'
-        ].join('');
-      }
-    }).join('');
-
-    return [
-      '<div style="background:' + pack.bg + ';border:2px solid ' + pack.border + ';overflow:hidden">',
-        '<div style="background:' + pack.color + ';color:white;padding:16px 18px">',
-          '<div style="font-family:var(--font-sans);font-size:9px;letter-spacing:3px;text-transform:uppercase;opacity:0.8;margin-bottom:3px">' + pack.title + '</div>',
-          '<div style="font-family:var(--font-heading);font-size:19px;letter-spacing:2px;margin-bottom:5px">' + pack.subtitle + '</div>',
-          '<div style="font-size:13px;opacity:0.85;font-style:italic;margin-bottom:10px">' + pack.desc + '</div>',
-          '<div style="font-family:var(--font-heading);font-size:20px">Total ₹' + packTotal.toLocaleString('en-IN') + '</div>',
-        '</div>',
-        '<div style="padding:14px;display:flex;flex-direction:column;gap:12px">',
-          itemsHtml,
-        '</div>',
-        '<div style="padding:0 14px 14px">',
-          '<a href="{{ url_for('customize') }}" style="display:block;text-align:center;padding:10px;background:' + pack.color + ';color:white;font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;text-decoration:none">',
-            '<i class="fas fa-magic"></i> Order Custom',
-          '</a>',
-        '</div>',
-      '</div>'
-    ].join('');
+          '</div>',
+        '</div>'
+      ].join('');
+    } else {
+      // No product found — show allocated budget as placeholder
+      return [
+        '<div style="background:white;padding:16px;border:1px dashed rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">',
+          '<div>',
+            '<div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:' + accent + ';margin-bottom:5px">' + item.meta.emoji + ' ' + item.meta.name + '</div>',
+            '<div style="font-size:13px;color:var(--warm-gray)">Suggested budget: <strong>₹' + item.alloc.toLocaleString('en-IN') + '</strong> (' + pct + '%)</div>',
+            '<div style="font-size:11px;color:var(--warm-gray);margin-top:3px">' + item.meta.fabric + '</div>',
+          '</div>',
+          '<a href="/all-products?max_price=' + item.alloc + '" style="font-family:var(--font-sans);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:' + accent + ';border:1px solid ' + accent + ';padding:6px 14px;text-decoration:none;white-space:nowrap">Browse →</a>',
+        '</div>'
+      ].join('');
+    }
   }).join('');
+
+  // ── Render full package card (no custom order button) ──
+  document.getElementById('packGrid').innerHTML = [
+    '<div style="border:2px solid rgba(139,26,26,0.2);overflow:hidden">',
+      '<div style="background:linear-gradient(135deg,#8B1A1A,#2e0808);color:white;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">',
+        '<div>',
+          '<div style="font-family:var(--font-sans);font-size:9px;letter-spacing:3px;text-transform:uppercase;opacity:0.7;margin-bottom:5px">Your Personalised Plan</div>',
+          '<div style="font-family:var(--font-heading);font-size:23px;letter-spacing:2px">Complete Wedding Wardrobe ✨</div>',
+        '</div>',
+        '<div style="text-align:right">',
+          '<div style="font-family:var(--font-sans);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);opacity:0.8;margin-bottom:4px">Estimated Total</div>',
+          '<div style="font-family:var(--font-heading);font-size:26px;color:var(--gold-light)">₹' + totalSpend.toLocaleString('en-IN') + '</div>',
+        '</div>',
+      '</div>',
+      '<div style="padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--ivory)">',
+        itemsHtml,
+      '</div>',
+    '</div>'
+  ].join('');
 }
 </script>
 {% endblock %}
