@@ -710,7 +710,7 @@ def init_db():
                 ('Digital Print','digital-print','Modern digital print sarees','categories/digital_1.jpeg'),
                 ('Designer Sarees','designer-sarees','Contemporary designer pieces','categories/reception_1.jpeg'),
                 ('Silk Sarees','silk-sarees','Luxurious pure silk','categories/silk_1.jpeg'),
-                ('Leheriya Sarees','leheriya-sarees','Wave-pattern from Rajasthan','categories/leheriya_1.jpeg'),
+                ('Leheriya Sarees','leheriya-sarees','Wave-pattern from Rajasthan','categories/leheriya_3.jpeg'),
             ]
             for name, slug, desc, img in cats:
                 db.session.add(Category(name=name, slug=slug, description=desc, image=img))
