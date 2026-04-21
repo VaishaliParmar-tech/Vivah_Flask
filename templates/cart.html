@@ -37,13 +37,16 @@
           </div>
           <div>
             <h3 style="font-family:var(--font-heading);font-size:18px;color:var(--charcoal);margin-bottom:5px">{{ item.product.name }}</h3>
-            {% if item.product.fabric %}<span class="product-fabric-tag">{{ item.product.fabric }}</span>{% endif %}
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              {% if item.product.fabric %}<span class="product-fabric-tag">{{ item.product.fabric }}</span>{% endif %}
+              {% if item.color %}<span class="product-fabric-tag">Color: {{ item.color }}</span>{% endif %}
+            </div>
             <div style="display:flex;align-items:center;gap:12px;margin-top:10px">
               <span style="font-size:20px;color:var(--crimson);font-weight:600">₹{{ "{:,.0f}".format(item.product.price * item.qty) }}</span>
               <span style="font-family:var(--font-sans);font-size:12px;color:var(--warm-gray)">× {{ item.qty }}</span>
             </div>
           </div>
-          <form action="{{ url_for('remove_from_cart', id=item.product.id) }}" method="POST">
+          <form action="{{ url_for('remove_from_cart', id=item.product.id) }}{{ '?color=' ~ item.color|urlencode if item.color else '' }}" method="POST">
             <button style="background:none;border:1px solid #ffcdd2;padding:8px 12px;cursor:pointer;color:var(--crimson)" type="submit"><i class="fas fa-trash"></i></button>
           </form>
         </div>

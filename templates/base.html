@@ -490,7 +490,8 @@
   }
 
   function addToCart(id) {
-    fetch('/cart/add/' + id, {method: 'POST'}).then(r => r.json()).then(d => {
+    let colorParam = window.selectedColor ? '?color=' + encodeURIComponent(window.selectedColor) : '';
+    fetch('/cart/add/' + id + colorParam, {method: 'POST'}).then(r => r.json()).then(d => {
       const c = document.getElementById('flashContainer');
       const m = document.createElement('div');
       m.className = 'flash-msg success';

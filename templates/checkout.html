@@ -68,120 +68,33 @@
         <i class="fas fa-money-bill-wave" style="color:var(--gold);margin-left:auto;font-size:22px;"></i>
       </label>
 
-      <label class="payment-option" onclick="selectPayment('UPI',this)">
-        <input type="radio" name="payment_method" value="UPI" />
+      <label class="payment-option" onclick="selectPayment('Stripe',this)">
+        <input type="radio" name="payment_method" value="Stripe" />
         <div>
-          <div style="font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:1px;">UPI Payment</div>
-          <div style="font-size:13px;color:var(--warm-gray);">Google Pay, PhonePe, Paytm</div>
+          <div style="font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:1px;">Pay Online (Stripe)</div>
+          <div style="font-size:13px;color:var(--warm-gray);">Credit/Debit Card, UPI, Wallets</div>
         </div>
-        <i class="fas fa-mobile-alt" style="color:var(--gold);margin-left:auto;font-size:22px;"></i>
+        <i class="fab fa-stripe" style="color:#635bff;margin-left:auto;font-size:28px;"></i>
       </label>
 
-      <!-- UPI Details Panel -->
-      <div class="payment-details" id="upi-details">
-        <div class="qr-box">
-          <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:14px">Scan QR to Pay</div>
-          <!-- Dummy QR Code SVG -->
-          <div style="display:inline-block;padding:12px;background:white;border:2px solid var(--gold);margin-bottom:14px">
-            <svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
-              <rect width="150" height="150" fill="white"/>
-              <!-- QR finder patterns -->
-              <rect x="10" y="10" width="40" height="40" fill="none" stroke="#1a1a1a" stroke-width="4"/>
-              <rect x="18" y="18" width="24" height="24" fill="#1a1a1a"/>
-              <rect x="100" y="10" width="40" height="40" fill="none" stroke="#1a1a1a" stroke-width="4"/>
-              <rect x="108" y="18" width="24" height="24" fill="#1a1a1a"/>
-              <rect x="10" y="100" width="40" height="40" fill="none" stroke="#1a1a1a" stroke-width="4"/>
-              <rect x="18" y="108" width="24" height="24" fill="#1a1a1a"/>
-              <!-- Data modules -->
-              <rect x="58" y="10" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="10" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="82" y="10" width="8" height="8" fill="#1a1a1a"/><rect x="58" y="22" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="70" y="22" width="8" height="8" fill="#1a1a1a"/><rect x="82" y="22" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="58" y="34" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="34" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="10" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="22" y="58" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="34" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="46" y="58" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="58" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="58" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="82" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="94" y="58" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="106" y="58" width="8" height="8" fill="#1a1a1a"/><rect x="118" y="58" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="130" y="58" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="10" y="70" width="8" height="8" fill="#1a1a1a"/><rect x="34" y="70" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="58" y="70" width="8" height="8" fill="#1a1a1a"/><rect x="82" y="70" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="106" y="70" width="8" height="8" fill="#1a1a1a"/><rect x="130" y="70" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="22" y="82" width="8" height="8" fill="#1a1a1a"/><rect x="46" y="82" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="70" y="82" width="8" height="8" fill="#1a1a1a"/><rect x="94" y="82" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="118" y="82" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="58" y="94" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="94" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="82" y="94" width="8" height="8" fill="#1a1a1a"/><rect x="94" y="94" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="106" y="94" width="8" height="8" fill="#1a1a1a"/><rect x="118" y="94" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="130" y="94" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="58" y="106" width="8" height="8" fill="#1a1a1a"/><rect x="82" y="106" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="106" y="106" width="8" height="8" fill="#1a1a1a"/><rect x="130" y="106" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="58" y="118" width="8" height="8" fill="#1a1a1a"/><rect x="70" y="118" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="94" y="118" width="8" height="8" fill="#1a1a1a"/><rect x="118" y="118" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="58" y="130" width="8" height="8" fill="#1a1a1a"/><rect x="82" y="130" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="106" y="130" width="8" height="8" fill="#1a1a1a"/><rect x="118" y="130" width="8" height="8" fill="#1a1a1a"/>
-              <rect x="130" y="130" width="8" height="8" fill="#1a1a1a"/>
-            </svg>
+      <!-- Stripe Info Panel -->
+      <div class="payment-details" id="stripe-details">
+        <div style="text-align:center;padding:16px 0;">
+          <i class="fas fa-lock" style="font-size:28px;color:var(--gold);margin-bottom:12px;"></i>
+          <div style="font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--charcoal);margin-bottom:8px;">Secure Payment via Stripe</div>
+          <div style="font-size:13px;color:var(--warm-gray);line-height:1.6;">
+            You will be redirected to Stripe's secure checkout page to complete your payment.<br>
+            All major cards, UPI, and wallets accepted.
           </div>
-          <div style="font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--charcoal);margin-bottom:4px">vivah@upi</div>
-          <div style="font-size:12px;color:var(--warm-gray);margin-bottom:16px">UPI ID: vivah.sarees@okaxis</div>
-          <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
-            <div style="text-align:center;opacity:0.85">
-              <div style="width:44px;height:44px;border-radius:50%;background:#00b300;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;color:white;font-size:20px">
-                <i class="fas fa-mobile-alt"></i>
-              </div>
-              <div style="font-size:10px;font-family:var(--font-sans)">PhonePe</div>
-            </div>
-            <div style="text-align:center;opacity:0.85">
-              <div style="width:44px;height:44px;border-radius:50%;background:#1a73e8;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;color:white;font-size:20px">
-                <i class="fab fa-google-pay" style="font-size:14px">G</i>
-              </div>
-              <div style="font-size:10px;font-family:var(--font-sans)">Google Pay</div>
-            </div>
-            <div style="text-align:center;opacity:0.85">
-              <div style="width:44px;height:44px;border-radius:50%;background:#002970;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;color:white;font-size:20px">
-                <i class="fas fa-wallet"></i>
-              </div>
-              <div style="font-size:10px;font-family:var(--font-sans)">Paytm</div>
-            </div>
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;opacity:0.7;">
+            <i class="fab fa-cc-visa" style="font-size:30px;color:#1a1f71"></i>
+            <i class="fab fa-cc-mastercard" style="font-size:30px;color:#eb001b"></i>
+            <i class="fab fa-cc-amex" style="font-size:30px;color:#007bc1"></i>
+            <i class="fab fa-google-pay" style="font-size:30px;color:#4285f4"></i>
+            <i class="fab fa-apple-pay" style="font-size:30px;color:#000"></i>
           </div>
-          <div style="margin-top:14px;font-size:12px;color:var(--warm-gray);font-style:italic">After payment, click "Place Order" to confirm your order.</div>
+          <div style="margin-top:14px;font-size:11px;color:var(--warm-gray);"><i class="fas fa-shield-alt" style="color:var(--gold);margin-right:4px;"></i>256-bit SSL encrypted &amp; PCI compliant</div>
         </div>
-      </div>
-
-      <label class="payment-option" onclick="selectPayment('Card',this)">
-        <input type="radio" name="payment_method" value="Card" />
-        <div>
-          <div style="font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:1px;">Credit / Debit Card</div>
-          <div style="font-size:13px;color:var(--warm-gray);">Visa, Mastercard, RuPay</div>
-        </div>
-        <i class="fas fa-credit-card" style="color:var(--gold);margin-left:auto;font-size:22px;"></i>
-      </label>
-
-      <!-- Card Details Panel -->
-      <div class="payment-details" id="card-details">
-        <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:14px">Enter Card Details</div>
-        <div style="position:relative;margin-bottom:0">
-          <input class="card-input" type="text" id="card-number" placeholder="Card Number (16 digits)" maxlength="19"
-            oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim().slice(0,19)"
-            style="padding-right:48px"/>
-          <i class="fas fa-credit-card" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--warm-gray);margin-top:-6px"></i>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <input class="card-input" type="text" id="card-expiry" placeholder="MM / YY" maxlength="7"
-            oninput="let v=this.value.replace(/\D/g,'');if(v.length>=2){v=v.slice(0,2)+' / '+v.slice(2);}this.value=v.slice(0,7);"/>
-          <div style="position:relative">
-            <input class="card-input" type="password" id="card-cvv" placeholder="CVV" maxlength="3"
-              oninput="this.value=this.value.replace(/\D/g,'').slice(0,3)" style="padding-right:48px;margin-bottom:0"/>
-            <i class="fas fa-lock" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--warm-gray);margin-top:-6px"></i>
-          </div>
-        </div>
-        <input class="card-input" type="text" id="card-name" placeholder="Name on Card" style="text-transform:uppercase;margin-top:12px"/>
-        <div style="display:flex;gap:10px;margin-top:6px;opacity:0.6">
-          <i class="fab fa-cc-visa" style="font-size:28px;color:#1a1f71"></i>
-          <i class="fab fa-cc-mastercard" style="font-size:28px;color:#eb001b"></i>
-          <i class="fab fa-cc-amex" style="font-size:28px;color:#007bc1"></i>
-        </div>
-        <div style="margin-top:12px;font-size:11px;color:var(--warm-gray)"><i class="fas fa-shield-alt" style="color:var(--gold);margin-right:4px"></i>Your card details are secure &amp; encrypted.</div>
       </div>
     </div>
   </div>
@@ -200,7 +113,7 @@
       </div>
       <div style="flex:1;">
         <div style="font-size:14px;font-weight:600;color:var(--charcoal);">{{ item.product.name }}</div>
-        <div style="font-family:var(--font-sans);font-size:12px;color:var(--warm-gray);">Qty: {{ item.qty }}</div>
+        <div style="font-family:var(--font-sans);font-size:12px;color:var(--warm-gray);">Qty: {{ item.qty }}{% if item.color %} | Color: {{ item.color }}{% endif %}</div>
       </div>
       <div style="font-size:15px;color:var(--crimson);font-weight:600;">₹{{ "{:,.0f}".format(item.product.price * item.qty) }}</div>
     </div>
@@ -213,8 +126,8 @@
     <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;color:green;"><span>Shipping</span><span>{{ 'Free' if total >= 2999 else '₹199' }}</span></div>
     <hr style="border:none;border-top:2px solid var(--ivory-dark);margin:12px 0;"/>
     <div style="display:flex;justify-content:space-between;font-size:22px;font-weight:600;color:var(--crimson);margin-bottom:24px;"><span>Total</span><span>₹{{ "{:,.0f}".format(total + (0 if total >= 2999 else 199)) }}</span></div>
-    <button type="submit" class="btn btn-crimson" style="width:100%;justify-content:center;font-size:12px;padding:16px;">
-      <i class="fas fa-lock"></i> Place Order Securely
+    <button type="submit" id="place-order-btn" class="btn btn-crimson" style="width:100%;justify-content:center;font-size:12px;padding:16px;">
+      <i class="fas fa-lock"></i> <span id="btn-text">Place Order Securely</span>
     </button>
     <p style="text-align:center;font-family:var(--font-sans);font-size:11px;color:var(--warm-gray);margin-top:12px;"><i class="fas fa-shield-alt" style="color:var(--gold);margin-right:4px;"></i>100% Secure &amp; Trusted</p>
   </div>
@@ -231,8 +144,15 @@ function selectPayment(method, clickedLabel) {
   clickedLabel.querySelector('input[type=radio]').checked = true;
 
   // Show/hide detail panels
-  document.getElementById('upi-details').classList.toggle('active', method === 'UPI');
-  document.getElementById('card-details').classList.toggle('active', method === 'Card');
+  document.getElementById('stripe-details').classList.toggle('active', method === 'Stripe');
+
+  // Update button text
+  var btnText = document.getElementById('btn-text');
+  if (method === 'Stripe') {
+    btnText.textContent = 'Pay with Stripe';
+  } else {
+    btnText.textContent = 'Place Order Securely';
+  }
 }
 </script>
 {% endblock %}

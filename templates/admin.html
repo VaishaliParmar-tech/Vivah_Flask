@@ -90,6 +90,7 @@
     <button class="nav-item" onclick="showTab('products',this)"><i class="fas fa-th-large"></i> All Products <span class="nav-badge">{{ products|length }}</span></button>
     <div class="sidebar-section">Orders</div>
     <button class="nav-item" onclick="showTab('orders',this)"><i class="fas fa-shopping-bag"></i> Orders <span class="nav-badge">{{ orders|length }}</span></button>
+    <button class="nav-item" onclick="showTab('replacements',this)"><i class="fas fa-exchange-alt"></i> Replacements <span class="nav-badge">{{ replacement_requests|length }}</span></button>
     <div class="sidebar-section">Manage</div>
     <button class="nav-item" onclick="showTab('categories',this)"><i class="fas fa-tags"></i> Categories</button>
     <button class="nav-item" onclick="showTab('messages',this)"><i class="fas fa-envelope"></i> Messages <span class="nav-badge">{{ contacts|length }}</span></button>
@@ -229,7 +230,10 @@
             <td>{{ p.category.name if p.category else '—' }}</td>
             <td>{{ p.stock }}</td>
             <td>{% if p.is_wedding %}💍{% endif %}{% if p.is_featured %}⭐{% endif %}{% if p.is_new_arrival %}🆕{% endif %}</td>
-            <td><form action="{{ url_for('admin_delete_product', id=p.id) }}" method="POST" onsubmit="return confirm('Delete this product?')"><button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></form></td>
+            <td style="display:flex;gap:6px;flex-direction:column;">
+              <a href="{{ url_for('admin_product_colors', id=p.id) }}" class="btn btn-outline btn-sm" style="font-size:10px;padding:4px 8px;justify-content:center"><i class="fas fa-palette"></i> Colors</a>
+              <form action="{{ url_for('admin_delete_product', id=p.id) }}" method="POST" onsubmit="return confirm('Delete this product?')" style="margin:0"><button type="submit" class="btn btn-danger btn-sm" style="width:100%;justify-content:center"><i class="fas fa-trash"></i> Delete</button></form>
+            </td>
           </tr>{% endfor %}</tbody>
         </table></div>
         {% else %}<div class="card-body"><div class="empty-state"><i class="fas fa-box-open"></i><h3>No products yet</h3></div></div>{% endif %}
@@ -247,7 +251,7 @@
             <td><strong style="color:var(--crimson)">{{ o.order_number }}</strong></td>
             <td>{% if o.user %}<strong>{{ o.user.name }}</strong><br><small style="color:var(--warm-gray)">{{ o.user.phone or o.user.email }}</small>{% else %}—{% endif %}</td>
             <td style="max-width:140px;font-size:12px;color:var(--warm-gray)">{{ o.address or '—' }}</td>
-            <td><div id="oi{{ o.id }}" style="font-size:11px;color:var(--warm-gray);max-width:180px"></div><script>try{var it={{ o.items_json|safe }};var d=document.getElementById('oi{{ o.id }}');it.forEach(function(i){d.innerHTML+=i.name+' &times;'+i.qty+'<br>';});}catch(e){}</script></td>
+            <td><div id="oi{{ o.id }}" style="font-size:11px;color:var(--warm-gray);max-width:180px"></div><script>try{var it={{ o.items_json|safe }};var d=document.getElementById('oi{{ o.id }}');it.forEach(function(i){var c = i.color ? ' ('+i.color+')' : ''; d.innerHTML+=i.name+c+' &times;'+i.qty+'<br>';});}catch(e){}</script></td>
             <td><strong>₹{{ "{:,.0f}".format(o.total) }}</strong></td>
             <td>{{ o.payment_method }}</td>
             <td><span class="sp s-{{ o.status }}">{{ o.status }}</span></td>
@@ -435,6 +439,37 @@
           </div>
         </div>
         {% endif %}
+      </div>
+    </div>
+
+    <!-- REPLACEMENTS -->
+    <div class="tab-panel" id="tab-replacements">
+      <div class="card">
+        <div class="card-header"><h2><i class="fas fa-exchange-alt" style="color:var(--gold);margin-right:8px"></i>Replacement Requests ({{ replacement_requests|length }})</h2></div>
+        {% if replacement_requests %}
+        <div class="table-wrap"><table>
+          <thead><tr><th>#</th><th>Order</th><th>Customer</th><th>Reason</th><th>Description</th><th>Status</th><th>Date</th><th>Update</th></tr></thead>
+          <tbody>{% for rr in replacement_requests %}<tr>
+            <td>{{ rr.id }}</td>
+            <td><strong style="color:var(--crimson)">{{ rr.order.order_number }}</strong></td>
+            <td>{% if rr.user %}<strong>{{ rr.user.name }}</strong><br><small style="color:var(--warm-gray)">{{ rr.user.email }}</small>{% else %}—{% endif %}</td>
+            <td>{{ rr.reason }}</td>
+            <td style="max-width:180px;font-size:12px;color:var(--warm-gray)">{{ rr.description or '—' }}</td>
+            <td><span class="sp s-{{ rr.status }}">{{ rr.status }}</span></td>
+            <td style="white-space:nowrap">{{ rr.created_at.strftime('%d %b %Y') }}</td>
+            <td>
+              <form action="{{ url_for('admin_update_replacement') }}" method="POST" style="min-width:220px">
+                <input type="hidden" name="replacement_id" value="{{ rr.id }}" />
+                <div class="sf" style="margin-bottom:6px">
+                  <select name="status">{% for s in ['Pending','Approved','Rejected','Completed'] %}<option value="{{ s }}" {{ 'selected' if rr.status==s }}>{{ s }}</option>{% endfor %}</select>
+                  <button type="submit" class="btn btn-sm btn-green"><i class="fas fa-check"></i></button>
+                </div>
+                <input type="text" name="admin_note" placeholder="Admin note..." value="{{ rr.admin_note or '' }}" style="width:100%;padding:5px 8px;border:1px solid rgba(201,168,76,0.3);font-size:11px;background:var(--ivory);outline:none" />
+              </form>
+            </td>
+          </tr>{% endfor %}</tbody>
+        </table></div>
+        {% else %}<div class="card-body"><div class="empty-state"><i class="fas fa-exchange-alt" style="font-size:48px;color:var(--gold);margin-bottom:16px;"></i><h3>No replacement requests yet</h3></div></div>{% endif %}
       </div>
     </div>
 

@@ -37,8 +37,9 @@
           const items = {{ order.items_json|safe }};
           const c = document.getElementById('itemsContainer');
           items.forEach(item => {
+            let colorHtml = item.color ? ` <span style="font-size:12px;color:var(--gold-dark);margin-left:8px;">Color: ${item.color}</span>` : '';
             c.innerHTML += `<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--ivory-dark);font-size:15px;">
-              <span>${item.name} <span style="color:var(--warm-gray);">× ${item.qty}</span></span>
+              <span>${item.name} <span style="color:var(--warm-gray);">× ${item.qty}</span>${colorHtml}</span>
               <span style="color:var(--crimson);font-weight:600;">₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
             </div>`;
           });
@@ -54,7 +55,40 @@
       <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
         <a href="{{ url_for('track_order') }}?order_number={{ order.order_number }}" class="btn btn-gold"><i class="fas fa-map-marker-alt"></i> Track Order</a>
         <a href="{{ url_for('profile') }}#orders" class="btn btn-outline">All Orders</a>
+        {% if order.status == 'Delivered' %}
+          {% set has_active_replacement = order.replacement_requests|selectattr('status','in',['Pending','Approved'])|list|length > 0 %}
+          {% if not has_active_replacement %}
+          <a href="{{ url_for('request_replacement', order_number=order.order_number) }}" class="btn btn-crimson"><i class="fas fa-exchange-alt"></i> Request Replacement</a>
+          {% endif %}
+        {% endif %}
       </div>
+
+      {% if order.replacement_requests %}
+      <div style="margin-top:28px;padding-top:22px;border-top:2px solid var(--ivory-dark);">
+        <h3 style="font-family:var(--font-heading);font-size:18px;color:var(--charcoal);letter-spacing:2px;margin-bottom:16px;"><i class="fas fa-exchange-alt" style="color:var(--gold);margin-right:8px;"></i>Replacement Requests</h3>
+        {% for rr in order.replacement_requests %}
+        <div style="background:var(--ivory);padding:18px;border-left:4px solid {{ '#F57F17' if rr.status=='Pending' else '#2E7D32' if rr.status=='Approved' else '#B71C1C' if rr.status=='Rejected' else '#6A1B9A' }};margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+            <strong style="font-family:var(--font-sans);font-size:13px;color:var(--charcoal);">{{ rr.reason }}</strong>
+            <span style="display:inline-block;padding:4px 12px;font-family:var(--font-sans);font-size:10px;letter-spacing:2px;text-transform:uppercase;border-radius:2px;
+              background:{{ '#FFF8E1' if rr.status=='Pending' else '#E8F5E9' if rr.status=='Approved' else '#FFEBEE' if rr.status=='Rejected' else '#F3E5F5' }};
+              color:{{ '#F57F17' if rr.status=='Pending' else '#2E7D32' if rr.status=='Approved' else '#B71C1C' if rr.status=='Rejected' else '#6A1B9A' }};">
+              {{ rr.status }}
+            </span>
+          </div>
+          {% if rr.description %}
+          <p style="font-size:13px;color:var(--warm-gray);margin-bottom:6px;">{{ rr.description }}</p>
+          {% endif %}
+          <div style="font-family:var(--font-sans);font-size:11px;color:var(--warm-gray);">Submitted: {{ rr.created_at.strftime('%d %b %Y, %I:%M %p') }}</div>
+          {% if rr.admin_note %}
+          <div style="margin-top:8px;padding:10px;background:white;border:1px solid var(--ivory-dark);font-size:12px;">
+            <strong style="color:var(--gold-dark);">Admin Note:</strong> {{ rr.admin_note }}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
   </div>
 </section>
