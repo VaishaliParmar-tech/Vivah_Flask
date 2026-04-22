@@ -11,6 +11,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///vivah.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'static', 'images', 'products')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['STRIPE_PUBLIC_KEY'] = os.environ.get('STRIPE_PUBLIC_KEY', 'pk_test_51TKf9O3823lz1qaCjtpVDVPzVFjAsv22vYPdekXyovYvB5ulh3U11Ds9YOtctrFIaMa6wr5C0Ykejn3heIu2MMq000O3D7m806')
+app.config['STRIPE_SECRET_KEY'] = os.environ.get('STRIPE_SECRET_KEY')
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
 db = SQLAlchemy(app)
