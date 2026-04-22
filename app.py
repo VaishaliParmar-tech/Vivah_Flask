@@ -4,6 +4,8 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os, secrets, string, json
+import stripe
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vivah-royal-2026-xK9m'
